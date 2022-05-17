@@ -3,7 +3,7 @@ import {
   createStackNavigator,
   StackNavigationProp
 } from "@react-navigation/stack";
-import ListingPage from "../Screens/ListingPageScreen/ListingPage";
+// import ListingPage from "../Screens/ListingPageScreen/ListingPage";
 import {
   SCREEN_LISTING_PAGE,
   SCREEN_FLIGHT_VOUCHER,
@@ -112,7 +112,7 @@ const { Navigator, Screen } = Stack;
 const ModalStack = () => {
   return (
     <Navigator headerMode="none">
-      <Screen name={SCREEN_LISTING_PAGE} component={ListingPage} />
+      {/* <Screen name={SCREEN_LISTING_PAGE} component={ListingPage} /> */}
       <Screen name={SCREEN_FLIGHT_VOUCHER} component={FlightVoucher} />
       <Screen name={SCREEN_ACTIVITY_VOUCHER} component={ActivityVoucher} />
       <Screen name={SCREEN_HOTEL_VOUCHER} component={HotelVoucher} />

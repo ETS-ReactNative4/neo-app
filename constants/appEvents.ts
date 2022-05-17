@@ -116,15 +116,15 @@ const appEvents = {
       customVouchers: 'customVouchers',
     },
   },
-  Home: {
-    event: 'Home',
-    click: {
-      packageCard: 'package_card',
-      startPlanningNow: 'start_planning',
-      findBooking: 'find_booking',
-      openProduct: 'open_product',
-    },
-  },
+  // Home: {
+  //   event: 'Home',
+  //   click: {
+  //     packageCard: 'package_card',
+  //     startPlanningNow: 'start_planning',
+  //     findBooking: 'find_booking',
+  //     openProduct: 'open_product',
+  //   },
+  // },
   // BookedItinerary: {
   //   event: 'BookedItinerary',
   //   scroll: {

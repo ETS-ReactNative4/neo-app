@@ -9,7 +9,7 @@ import {
   CONSTANT_GCMDateFormat,
   CONSTANT_voucherDateFormat,
 } from '../../../constants/styles';
-import CountryCodePicker from '../../MobileNumberScreen/Components/CountryCodePicker';
+// import CountryCodePicker from '../../MobileNumberScreen/Components/CountryCodePicker';
 import {DateInputBox} from '../../StayHotelSearchScreen/Components/DateInputBox';
 import {PassengerErrorType} from '../StayHotelReviewScreen';
 
@@ -159,13 +159,13 @@ export const Passengers = ({
         error={error.birthDay}
         containerProps={{flex: 1}}
       />
-      <CountryCodePicker
+      {/* <CountryCodePicker
         isVisible={codePickerVisible}
         onClose={toggleCodePicker}
         selectCountryCode={(code: string) => {
           updatePaxData({index, key: 'countryPhoneCode', value: code});
         }}
-      />
+      /> */}
     </Box>
   );
 };

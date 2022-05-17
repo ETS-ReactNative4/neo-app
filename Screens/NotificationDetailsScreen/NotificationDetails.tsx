@@ -29,8 +29,8 @@ import TranslucentStatusBar from '../../CommonComponents/TranslucentStatusBar/Tr
 import useNotificationDetailsApi from './hooks/useNotificationDetailsApi';
 import {observer} from 'mobx-react';
 import ErrorBoundary from '../../CommonComponents/ErrorBoundary/ErrorBoundary';
-import useUnbookedItinerary from '../ItineraryScreen/hooks/useUnbookedItinerary';
-import {IItineraryServerResponse} from '../ItineraryScreen/Itinerary';
+// import useUnbookedItinerary from '../ItineraryScreen/hooks/useUnbookedItinerary';
+// import {IItineraryServerResponse} from '../ItineraryScreen/Itinerary';
 import apiCall from '../../Services/networkRequests/apiCall';
 import {
   CONSTANT_itineraryDetails,
@@ -48,7 +48,7 @@ import {
 import moment from 'moment';
 import LottieView from 'lottie-react-native';
 import dialer from '../../Services/dialer/dialer';
-import useItineraryCosting from '../ItineraryScreen/hooks/useItineraryCosting';
+// import useItineraryCosting from '../ItineraryScreen/hooks/useItineraryCosting';
 
 type NotificationDetailsNavTypes = AppNavigatorProps<
   typeof SCREEN_NOTIFICATION_DETAILS
@@ -66,7 +66,7 @@ const NotificationDetails = ({route, navigation}: NotificationDetailsProps) => {
   const [displayCurrency, setDisplayCurrency] = useState('INR');
 
   // @ts-ignore - handle null initialization
-  const itineraryDetails = useUnbookedItinerary(null);
+  // const itineraryDetails = useUnbookedItinerary(null);
 
   const goBack = () => {
     navigation.goBack();
@@ -74,56 +74,56 @@ const NotificationDetails = ({route, navigation}: NotificationDetailsProps) => {
 
   const {isCosting, updateItineraryCost} = useItineraryCosting();
 
-  const updateCost = () => {
-    if (itineraryDetails.costingConfig) {
-      updateItineraryCost(notification.itineraryId, {
-        costingConfig: itineraryDetails.costingConfig,
-        flightsBookedByUserAlready: false,
-        itineraryId: '',
-        costingType: 'RECOST',
-        name: '',
-        leadSource: {
-          deviceType:
-            Platform.OS === CONSTANT_platformAndroid ? 'Android OS' : 'iOS',
-        },
-      })
-        .then(result => {
-          if (result) {
-            loadItinerary();
-            getNotificationDetails(notification.itineraryId);
-          } else {
-            toastBottom('Unable to fetch updated cost!');
-          }
-        })
-        .catch(() => {
-          toastBottom('Unable to fetch updated cost!');
-        });
-    }
-  };
+  // const updateCost = () => {
+  //   if (itineraryDetails.costingConfig) {
+  //     updateItineraryCost(notification.itineraryId, {
+  //       costingConfig: itineraryDetails.costingConfig,
+  //       flightsBookedByUserAlready: false,
+  //       itineraryId: '',
+  //       costingType: 'RECOST',
+  //       name: '',
+  //       leadSource: {
+  //         deviceType:
+  //           Platform.OS === CONSTANT_platformAndroid ? 'Android OS' : 'iOS',
+  //       },
+  //     })
+  //       .then(result => {
+  //         if (result) {
+  //           loadItinerary();
+  //           getNotificationDetails(notification.itineraryId);
+  //         } else {
+  //           toastBottom('Unable to fetch updated cost!');
+  //         }
+  //       })
+  //       .catch(() => {
+  //         toastBottom('Unable to fetch updated cost!');
+  //       });
+  //   }
+  // };
 
-  const loadItinerary = () => {
-    apiCall(
-      CONSTANT_itineraryDetails.replace(
-        ':itineraryId',
-        notification.itineraryId,
-      ),
-      {},
-      'GET',
-    )
-      .then((response: IItineraryServerResponse) => {
-        if (response.status === CONSTANT_responseSuccessStatus) {
-          itineraryDetails.updateItinerary(response.data);
-          setDisplayCurrency(response.displayCurrency || '');
-        } else {
-          toastBottom('Unable to retrieve Itinerary info');
-          navigation.goBack();
-        }
-      })
-      .catch(() => {
-        toastBottom('Unable to retrieve Itinerary info');
-        navigation.goBack();
-      });
-  };
+  // const loadItinerary = () => {
+  //   apiCall(
+  //     CONSTANT_itineraryDetails.replace(
+  //       ':itineraryId',
+  //       notification.itineraryId,
+  //     ),
+  //     {},
+  //     'GET',
+  //   )
+  //     .then((response: IItineraryServerResponse) => {
+  //       if (response.status === CONSTANT_responseSuccessStatus) {
+  //         itineraryDetails.updateItinerary(response.data);
+  //         setDisplayCurrency(response.displayCurrency || '');
+  //       } else {
+  //         toastBottom('Unable to retrieve Itinerary info');
+  //         navigation.goBack();
+  //       }
+  //     })
+  //     .catch(() => {
+  //       toastBottom('Unable to retrieve Itinerary info');
+  //       navigation.goBack();
+  //     });
+  // };
 
   const markNotificationRead = () => {
     apiCall(

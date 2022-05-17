@@ -7,7 +7,7 @@ import storeService from '../../Services/storeService/storeService';
 import {AppNavigatorProps} from '../../NavigatorsV2/AppNavigator';
 import {SCREEN_POST_BOOKING_INTRO} from '../../NavigatorsV2/ScreenNames';
 import {isStaycation} from '../../Services/isStaycation/isStaycation';
-import IntroScreen from '../IntroScreen/IntroScreen';
+// import IntroScreen from '../IntroScreen/IntroScreen';
 
 type PostBookingIntroNavTypes = AppNavigatorProps<
   typeof SCREEN_POST_BOOKING_INTRO
@@ -27,6 +27,6 @@ const PostBookingIntro = ({route}: PostBookingIntroProps) => {
       openSOFeedback(selectedItineraryId);
     }
   };
-  return <IntroScreen introData={introData} nextScreen={nextScreen} />;
+  // return <IntroScreen introData={introData} nextScreen={nextScreen} />;
 };
 export default PostBookingIntro;

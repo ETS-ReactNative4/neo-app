@@ -1,7 +1,7 @@
 import { createStackNavigator } from "react-navigation-stack";
 import Starter from "../Screens/StartingScreen/Starter";
 import HomeTabs from "./HomeTabs";
-import MobileNumber from "../Screens/MobileNumberScreen/MobileNumber";
+// import MobileNumber from "../Screens/MobileNumberScreen/MobileNumber";
 // import BookedItinerary from "../Screens/BookedItineraryScreen/BookedItinerary";
 import Places from "../Screens/PlacesScreen/Places";
 import NearBy from "../Screens/NearByScreen/NearBy";
@@ -42,9 +42,9 @@ const MainStack = createStackNavigator(
         gesturesEnabled: false
       }
     },
-    MobileNumber: {
-      screen: MobileNumber
-    },
+    // MobileNumber: {
+    //   screen: MobileNumber
+    // },
     // BookedItinerary: {
     //   screen: BookedItinerary
     // },

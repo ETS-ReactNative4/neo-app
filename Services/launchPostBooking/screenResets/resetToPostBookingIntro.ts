@@ -1,4 +1,4 @@
-import {IIntroData} from '../../../Screens/IntroScreen/IntroScreen';
+// import {IIntroData} from '../../../Screens/IntroScreen/IntroScreen';
 import {logError} from '../../errorLogger/errorLogger';
 import {CONSTANT_awsJsonServer} from '../../../constants/serverUrls';
 import {CONSTANT_postBookingIntroData} from '../../../constants/apiUrls';
@@ -8,34 +8,34 @@ import {navigationDispatcher} from '../../navigationService/navigationServiceV2'
 import {CommonActions} from '@react-navigation/native';
 import {SCREEN_POST_BOOKING_INTRO} from '../../../NavigatorsV2/ScreenNames';
 
-const postBookingIntroDefaultData: IIntroData[] = [
-  {
-    title: 'It’s vacay time! Let the fun begin!',
-    description: 'You are :pendingDays days away from the best holiday ever!',
-    image:
-      'https://pyt-voyager.s3.ap-south-1.amazonaws.com/so-feedback/intro-cover-images/1.png',
-  },
-  {
-    title: 'Live on-trip support',
-    description: 'Your trip is important to us. We’ll stay on the line :)',
-    image:
-      'https://pyt-voyager.s3.ap-south-1.amazonaws.com/so-feedback/intro-cover-images/2.png',
-  },
-  {
-    title: 'Visa assistance',
-    description:
-      'You do the travelling. We’ll take care of the paperwork—visa assistance every step of the way!',
-    image:
-      'https://pyt-voyager.s3.ap-south-1.amazonaws.com/so-feedback/intro-cover-images/3.png',
-  },
-  {
-    title: 'Easy access to everything travel',
-    description:
-      'You’ve got all your bookings in one place—flights, hotels, activities—you tap it and it’s here!',
-    image:
-      'https://pyt-voyager.s3.ap-south-1.amazonaws.com/so-feedback/intro-cover-images/4.png',
-  },
-];
+// const postBookingIntroDefaultData: IIntroData[] = [
+//   {
+//     title: 'It’s vacay time! Let the fun begin!',
+//     description: 'You are :pendingDays days away from the best holiday ever!',
+//     image:
+//       'https://pyt-voyager.s3.ap-south-1.amazonaws.com/so-feedback/intro-cover-images/1.png',
+//   },
+//   {
+//     title: 'Live on-trip support',
+//     description: 'Your trip is important to us. We’ll stay on the line :)',
+//     image:
+//       'https://pyt-voyager.s3.ap-south-1.amazonaws.com/so-feedback/intro-cover-images/2.png',
+//   },
+//   {
+//     title: 'Visa assistance',
+//     description:
+//       'You do the travelling. We’ll take care of the paperwork—visa assistance every step of the way!',
+//     image:
+//       'https://pyt-voyager.s3.ap-south-1.amazonaws.com/so-feedback/intro-cover-images/3.png',
+//   },
+//   {
+//     title: 'Easy access to everything travel',
+//     description:
+//       'You’ve got all your bookings in one place—flights, hotels, activities—you tap it and it’s here!',
+//     image:
+//       'https://pyt-voyager.s3.ap-south-1.amazonaws.com/so-feedback/intro-cover-images/4.png',
+//   },
+// ];
 
 const setDynamicValuesToString = (data: IIntroData[]): IIntroData[] => {
   return data.map((item: IIntroData) => {

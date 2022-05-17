@@ -25,7 +25,7 @@ import PrimaryButton from '../PrimaryButton/PrimaryButton';
 import RouteList, {
   IRouteCitiesDetails,
 } from '../../CommonComponents/RouteList/RouteList';
-import ItineraryCardImage from './Components/ItineraryCardImage';
+// import ItineraryCardImage from './Components/ItineraryCardImage';
 import InclusionList from './Components/InclusionList';
 import {IInclusion} from '../../Screens/ExploreScreen/services/generateInclusions';
 // @ts-ignore
@@ -64,12 +64,12 @@ const ItineraryCard = ({
       onPress={action}
       activeOpacity={0.2}
       style={[styles.itineraryCardContainer, containerStyle]}>
-      <ItineraryCardImage
+      {/* <ItineraryCardImage
         thumbnailImages={thumbnailImages}
         images={images}
         tripType={tripType}
         imageStyle={[styles.itineraryImageStyle, imageStyle]}
-      />
+      /> */}
 
       <View style={styles.contentWrapper}>
         <View style={styles.titleTextWrapper}>

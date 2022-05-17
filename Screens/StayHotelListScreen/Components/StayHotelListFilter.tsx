@@ -7,7 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import FilterModalHeader from '../../ListingPageScreen/Components/FilterModalHeader';
+// import FilterModalHeader from '../../ListingPageScreen/Components/FilterModalHeader';
 import {StayHotelFooter} from './StayHotelFooter';
 import _capitalize from 'lodash/capitalize';
 import StaySection from './StaySection';
@@ -15,12 +15,12 @@ import Icon from '../../../CommonComponents/Icon/Icon';
 import {CONSTANT_starActive} from '../../../constants/imageAssets';
 import {CONSTANT_fontPrimaryRegular} from '../../../constants/fonts';
 
-import {
-  price as priceINR,
-  priceUAE,
-  priceUK,
-  priceUSD,
-} from '../../ListingPageScreen/filterOptions/filterOptions';
+// import {
+//   price as priceINR,
+//   priceUAE,
+//   priceUK,
+//   priceUSD,
+// } from '../../ListingPageScreen/filterOptions/filterOptions';
 import storeService from '../../../Services/storeService/storeService';
 import _toLower from 'lodash/toLower';
 import {
@@ -193,7 +193,7 @@ export const StayHotelListFilter = ({
       isVisible={isModalVisible}
       style={styles.modalContainer}>
       <SafeAreaView style={styles.filterContainer}>
-        <FilterModalHeader title={'Filters'} closeAction={closeFilterPanel} />
+        {/* <FilterModalHeader title={'Filters'} closeAction={closeFilterPanel} /> */}
         <ScrollView style={styles.scrollContainer}>
           <StaySection title="Amenities">
             <Checkbox

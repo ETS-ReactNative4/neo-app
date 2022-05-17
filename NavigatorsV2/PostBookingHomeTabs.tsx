@@ -122,7 +122,7 @@ const PostBookingHomeTabs = ({
         component={Tools}
         name={SCREEN_TOOLS_TAB}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         options={{
           tabBarLabel: 'Journal',
           icon: CONSTANT_journalIcon,
@@ -131,7 +131,7 @@ const PostBookingHomeTabs = ({
         }}
         component={Journal}
         name={SCREEN_JOURNAL_TAB}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };

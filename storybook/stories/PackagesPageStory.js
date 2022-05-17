@@ -1,7 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
-import PackageCard from "../../Screens/HomeScreen/Components/PackageCard";
-import PackageCarousel from "../../Screens/HomeScreen/Components/PackageCarousel";
+// import PackageCard from "../../Screens/HomeScreen/Components/PackageCard";
+// import PackageCarousel from "../../Screens/HomeScreen/Components/PackageCarousel";
 import constants from "../../constants/constants";
 
 const packageData = {
@@ -315,34 +315,34 @@ const packagesList = {
 };
 
 storiesOf("Packages Page", module)
-  .add("Package Card", () => {
-    const props = {
-      image: { uri: packageData.image },
-      title: packageData.title,
-      price: packageData.itineraryCost,
-      region: packageData.regionName,
-      slug: packageData.slug,
-      color: "rgba(255,201,51,1)",
-      triangle: constants.packageTriangleGold
-    };
-    console.log(props);
-    return <PackageCard {...props} />;
-  })
-  .add("Package Carousel", () => {
-    const props = {
-      title: packagesList.title,
-      packages: packagesList.packages.map(packageData => {
-        return {
-          image: { uri: packageData.image },
-          title: packageData.title,
-          price: packageData.itineraryCost,
-          region: packageData.regionName,
-          slug: packageData.slug,
-          color: "rgba(255,201,51,1)",
-          triangle: constants.packageTriangleGold
-        };
-      })
-    };
-    console.log(props);
-    return <PackageCarousel {...props} />;
-  });
+  // .add("Package Card", () => {
+  //   const props = {
+  //     image: { uri: packageData.image },
+  //     title: packageData.title,
+  //     price: packageData.itineraryCost,
+  //     region: packageData.regionName,
+  //     slug: packageData.slug,
+  //     color: "rgba(255,201,51,1)",
+  //     triangle: constants.packageTriangleGold
+  //   };
+  //   console.log(props);
+  //   return <PackageCard {...props} />;
+  // })
+  // .add("Package Carousel", () => {
+  //   const props = {
+  //     title: packagesList.title,
+  //     packages: packagesList.packages.map(packageData => {
+  //       return {
+  //         image: { uri: packageData.image },
+  //         title: packageData.title,
+  //         price: packageData.itineraryCost,
+  //         region: packageData.regionName,
+  //         slug: packageData.slug,
+  //         color: "rgba(255,201,51,1)",
+  //         triangle: constants.packageTriangleGold
+  //       };
+  //     })
+  //   };
+  //   console.log(props);
+  //   return <PackageCarousel {...props} />;
+  // });

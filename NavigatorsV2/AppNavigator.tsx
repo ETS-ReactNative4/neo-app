@@ -27,7 +27,7 @@ import {
   // SCREEN_ABOUT_SCREEN,
   SCREEN_SAVED_ITINERARIES,
   SCREEN_TRIP_INTENSITY,
-  SCREEN_ITINERARY,
+  // SCREEN_ITINERARY,
   SCREEN_REQUEST_CALLBACK,
   // SCREEN_GCM,
   // SCREEN_GCM_CITY_PICKER,
@@ -86,7 +86,7 @@ import AppLogin from '../Screens/AppLoginScreen/AppLogin';
 import Starter from '../Screens/StartingScreen/Starter';
 import TravelProfileWelcome from '../Screens/TravelProfileWelcomeScreen/TravelProfileWelcome';
 import TravelProfileCity from '../Screens/TravelProfileCityScreen/TravelProfileCity';
-import MaritalStatus from '../Screens/MaritalStatusScreen/MaritalStatus';
+// import MaritalStatus from '../Screens/MaritalStatusScreen/MaritalStatus';
 import StorybookUIRoot from '../storybook/Storybook';
 import PreTripHomeTabs from './PreTripHomeTabs';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
@@ -113,9 +113,9 @@ import EditTravellerProfileDetails from '../Screens/TravellerProfileDetailsScree
 // import About from '../Screens/AboutScreen/About';
 import SavedItinerary from '../Screens/SavedItineraryScreen/SavedItinerary';
 import TripIntensity from '../Screens/TripIntensityScreen/TripIntensity';
-import Itinerary, {
-  itinerarySourceType,
-} from '../Screens/ItineraryScreen/Itinerary';
+// import Itinerary, {
+//   itinerarySourceType,
+// } from '../Screens/ItineraryScreen/Itinerary';
 import RequestCallback from '../Screens/RequestCallback/RequestCallback';
 // import GCM from '../Screens/GCMScreen/GCM';
 // import GCMCityPicker from '../Screens/GCMCityPickerScreen/GCMCityPicker';
@@ -137,7 +137,7 @@ import PassportDetails from '../Screens/PassportDetailsScreen/PassportDetails';
 // import EmergencyContacts from '../Screens/EmergencyContactsScreen/EmergencyContacts';
 import Weather from '../Screens/WeatherScreen/Weather';
 import Places from '../Screens/PlacesScreen/Places';
-import NearBy from '../Screens/NearByScreen/NearBy';
+// import NearBy from '../Screens/NearByScreen/NearBy';
 import Visa from '../Screens/VisaScreen/Visa';
 import VisaSelector from '../Screens/VisaSelectorScreen/VisaSelector';
 import VisaChecklist from '../Screens/VisaChecklistScreen/VisaChecklist';
@@ -146,13 +146,13 @@ import VisaStatus from '../Screens/VisaStatusScreen/VisaStatus';
 import VisaHelp from '../Screens/VisaHelpScreen/VisaHelp';
 import SupportCenter from '../Screens/SupportCenterScreen/SupportCenter';
 // import Forex from '../Screens/ForexScreen/Forex';
-import JournalStart from '../Screens/JournalStartScreen/JournalStart';
-import JournalSetup from '../Screens/JournalSetupScreen/JournalSetup';
-import JournalDaySelector from '../Screens/JournalDaySelectorScreen/JournalDaySelector';
-import JournalImagePicker from '../Screens/JournalImagePickerScreen/JournalImagePicker';
-import JournalTextEditor from '../Screens/JournalTextEditorScreen/JournalTextEditor';
-import JournalPublish from '../Screens/JournalPublishScreen/JournalPublish';
-import JournalShare from '../Screens/JournalShareScreen/JournalShare';
+// import JournalStart from '../Screens/JournalStartScreen/JournalStart';
+// import JournalSetup from '../Screens/JournalSetupScreen/JournalSetup';
+// import JournalDaySelector from '../Screens/JournalDaySelectorScreen/JournalDaySelector';
+// import JournalImagePicker from '../Screens/JournalImagePickerScreen/JournalImagePicker';
+// import JournalTextEditor from '../Screens/JournalTextEditorScreen/JournalTextEditor';
+// import JournalPublish from '../Screens/JournalPublishScreen/JournalPublish';
+// import JournalShare from '../Screens/JournalShareScreen/JournalShare';
 import PaymentHome from '../Screens/PaymentHomeScreen/PaymentHome';
 import PaymentSummary from '../Screens/PaymentSummaryScreen/PaymentSummary';
 import PaymentSuccess from '../Screens/PaymentScreens/PaymentSuccess';
@@ -166,9 +166,9 @@ import NotificationsAnswer from '../Screens/NotificationsAnswerScreen/Notificati
 //   INationalityOption,
 // } from '../Screens/GCMNationalityPicker/GCMNationalityPicker';
 import SearchListingCardsPage from '../Screens/SearchListingCardsPage/SearchListingCardsPage';
-import ListingPage from '../Screens/ListingPageScreen/ListingPage';
+// import ListingPage from '../Screens/ListingPageScreen/ListingPage';
 import PreTripIntroScreen from '../Screens/PreTripIntroScreen/PreTripIntroScreen';
-import {IIntroData} from '../Screens/IntroScreen/IntroScreen';
+// import {IIntroData} from '../Screens/IntroScreen/IntroScreen';
 // import StayHotelSearchScreen, {
 //   StayHotelRoomConfigurationType,
 // } from '../Screens/StayHotelSearchScreen/StayHotelSearchScreen';
@@ -239,7 +239,7 @@ export type AppNavigatorParamsType = {
   //   getFaqByType: (type: string) => any;
   // };
   [SCREEN_YOUR_BOOKINGS]: undefined;
-  [SCREEN_POST_BOOKING_INTRO]: {introData: IIntroData[]};
+  // [SCREEN_POST_BOOKING_INTRO]: {introData: IIntroData[]};
   [SCREEN_AGENT_INFO]: {
     itineraryId: string;
     ownerName: string;
@@ -256,11 +256,11 @@ export type AppNavigatorParamsType = {
   [SCREEN_EDIT_TRAVELLER_PROFILE]: undefined;
   // [SCREEN_ABOUT_SCREEN]: undefined;
   [SCREEN_SAVED_ITINERARIES]: undefined;
-  [SCREEN_ITINERARY]: {
-    slug?: string;
-    itineraryId?: string;
-    itinerarySource: itinerarySourceType;
-  };
+  // [SCREEN_ITINERARY]: {
+  //   slug?: string;
+  //   itineraryId?: string;
+  //   itinerarySource: itinerarySourceType;
+  // };
   [SCREEN_REQUEST_CALLBACK]: {
     campaignItineraryId?: string;
     itineraryId?: string;
@@ -432,11 +432,11 @@ const AppNavigator = () => {
           options={{headerShown: false}}
           component={SearchListingCardsPage}
         />
-        <Screen
+        {/* <Screen
           name={SCREEN_LISTING_PAGE}
           options={{headerShown: false}}
           component={ListingPage}
-        />
+        /> */}
         <Screen
           name={SCREEN_SEARCH_TAB}
           options={{headerShown: false}}
@@ -494,7 +494,7 @@ const AppNavigator = () => {
           name={SCREEN_TRAVEL_COUNTRY_PICKER}
           component={TravelProfileCity}
         />
-        <Screen name={SCREEN_TRAVEL_MARITAL_STATUS} component={MaritalStatus} />
+        {/* <Screen name={SCREEN_TRAVEL_MARITAL_STATUS} component={MaritalStatus} /> */}
         <Screen
           name={SCREEN_MODAL_STACK}
           options={{
@@ -565,19 +565,19 @@ const AppNavigator = () => {
           component={UltimateMenu}
         />
         {/* <Screen name={SCREEN_ABOUT_SCREEN} component={About} /> */}
-        <Screen name={SCREEN_SAVED_ITINERARIES} component={SavedItinerary} />
+        {/* <Screen name={SCREEN_SAVED_ITINERARIES} component={SavedItinerary} /> */}
         <Screen name={SCREEN_TRIP_INTENSITY} component={TripIntensity} />
         {/* <Screen
           name={SCREEN_BUDGET_PREFERENCES}
           component={BudgetPreferences}
         /> */}
-        <Screen
+        {/* <Screen
           options={{
             headerShown: false,
           }}
           name={SCREEN_ITINERARY}
           component={Itinerary}
-        />
+        /> */}
         <Screen
           options={{
             headerShown: false,
@@ -634,7 +634,7 @@ const AppNavigator = () => {
         /> */}
         <Screen name={SCREEN_WEATHER} component={Weather} />
         <Screen name={SCREEN_PLACES} component={Places} />
-        <Screen name={SCREEN_NEAR_BY} component={NearBy} />
+        {/* <Screen name={SCREEN_NEAR_BY} component={NearBy} /> */}
         <Screen name={SCREEN_VISA} component={Visa} />
         <Screen name={SCREEN_VISA_SELECTOR} component={VisaSelector} />
         <Screen name={SCREEN_VISA_CHECKLIST} component={VisaChecklist} />
@@ -662,7 +662,7 @@ const AppNavigator = () => {
         />
         <Screen name={SCREEN_SUPPORT_CENTER} component={SupportCenter} />
         {/* <Screen name={SCREEN_FOREX} component={Forex} /> */}
-        <Screen name={SCREEN_JOURNAL_START} component={JournalStart} />
+        {/* <Screen name={SCREEN_JOURNAL_START} component={JournalStart} />
         <Screen name={SCREEN_JOURNAL_SETUP} component={JournalSetup} />
         <Screen
           name={SCREEN_JOURNAL_IMAGE_PICKER}
@@ -680,8 +680,8 @@ const AppNavigator = () => {
           name={SCREEN_JOURNAL_PUBLISH}
           options={{headerShown: false}}
           component={JournalPublish}
-        />
-        <Screen name={SCREEN_JOURNAL_SHARE} component={JournalShare} />
+        /> */}
+        {/* <Screen name={SCREEN_JOURNAL_SHARE} component={JournalShare} /> */}
         <Screen name={SCREEN_PAYMENT_HOME} component={PaymentHome} />
         <Screen name={SCREEN_PAYMENT_SUMMARY} component={PaymentSummary} />
         <Screen

@@ -17,7 +17,7 @@ import {
   SCREEN_APP_LOGIN,
   SCREEN_PRE_TRIP_INTRO,
 } from '../../NavigatorsV2/ScreenNames';
-import IntroScreen, {IIntroData} from '../IntroScreen/IntroScreen';
+// import IntroScreen, {IIntroData} from '../IntroScreen/IntroScreen';
 
 type PreTripIntroNavTypes = AppNavigatorProps<typeof SCREEN_PRE_TRIP_INTRO>;
 export interface PreTripIntroProps extends PreTripIntroNavTypes {}
@@ -51,18 +51,20 @@ const PreTripIntroScreen = ({navigation}: PreTripIntroProps) => {
       launchSource: 'PRETRIP_WELCOME_FLOW',
     });
   };
+
   return (
-    <IntroScreen
-      introData={postBookingIntroDefaultData}
-      nextScreen={nextScreen}
-      titleTextStyle={{
-        ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 22, 26),
-      }}
-      descriptionTextStyle={{
-        ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18, 24),
-      }}
-      coverImageContainerStyle={{height: responsiveHeight(75)}}
-    />
+    <></>
+    // <IntroScreen
+    //   introData={postBookingIntroDefaultData}
+    //   nextScreen={nextScreen}
+    //   titleTextStyle={{
+    //     ...CONSTANT_fontCustom(CONSTANT_primarySemiBold, 22, 26),
+    //   }}
+    //   descriptionTextStyle={{
+    //     ...CONSTANT_fontCustom(CONSTANT_primaryRegular, 18, 24),
+    //   }}
+    //   coverImageContainerStyle={{height: responsiveHeight(75)}}
+    // />
   );
 };
 export default PreTripIntroScreen;

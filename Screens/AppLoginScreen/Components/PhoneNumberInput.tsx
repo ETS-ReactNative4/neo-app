@@ -20,7 +20,7 @@ import {
 } from "../../../constants/colorPallete";
 import LottieView from "lottie-react-native";
 import { CONSTANT_visaSuccessAnimation } from "../../../constants/imageAssets";
-import CountryCodePicker from "../../MobileNumberScreen/Components/CountryCodePicker";
+// import CountryCodePicker from "../../MobileNumberScreen/Components/CountryCodePicker";
 
 export interface PhoneNumberInputProps extends TextInputProps {
   placeholder: string;
@@ -70,11 +70,11 @@ const PhoneNumberInput = ({
 
   return (
     <Fragment>
-      <CountryCodePicker
+      {/* <CountryCodePicker
         isVisible={isPickerActive}
         onClose={closePicker}
         selectCountryCode={onSelectCountryCode}
-      />
+      /> */}
       <View
         style={[
           styles.phoneNumberContainer,
