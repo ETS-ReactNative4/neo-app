@@ -17,7 +17,7 @@ import ErrorBoundary from './CommonComponents/ErrorBoundary/ErrorBoundary';
 import {updateNavigationService} from './Services/navigationService/navigationServiceV2';
 import NetInfo from '@react-native-community/netinfo';
 import {Provider} from 'mobx-react';
-import AppOverlays from './Screens/AppOverlays/AppOverlays';
+// import AppOverlays from './Screens/AppOverlays/AppOverlays';
 import {
   getInitialNotification,
   onNotificationDisplayed,
@@ -187,7 +187,7 @@ const App = () => {
               onStateChange={screenStateChange}>
               <AppNavigator />
             </NavigationContainer>
-            <AppOverlays />
+            {/* <AppOverlays /> */}
           </Fragment>
         </userContext.Provider>
       </dataContext.Provider>

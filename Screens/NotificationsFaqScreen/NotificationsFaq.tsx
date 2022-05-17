@@ -6,7 +6,7 @@ import {
   SCREEN_NOTIFICATION_ANSWER
 } from "../../NavigatorsV2/ScreenNames";
 import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
-import HelpDeskView from "../ChatScreen/Components/HelpDeskView";
+// import HelpDeskView from "../ChatScreen/Components/HelpDeskView";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { observer } from "mobx-react";
 import useNotificationFaq from "./hooks/useNotificationFaq";
@@ -56,7 +56,7 @@ const NotificationsFaq = ({ navigation, route }: NotificationFaqProps) => {
 
   return (
     <View style={styles.notificationFaqContainer}>
-      <HelpDeskView disableIcons disableHeader faqSections={faqSections} />
+      {/* <HelpDeskView disableIcons disableHeader faqSections={faqSections} /> */}
     </View>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, TextInput, Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import GCMViewer from "../GCMFormScreen/Components/GCMViewer";
+// import GCMViewer from "../GCMFormScreen/Components/GCMViewer";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import { AppNavigatorProps } from "../../NavigatorsV2/AppNavigator";
 import { SCREEN_REQUEST_CALLBACK } from "../../NavigatorsV2/ScreenNames";
@@ -182,99 +182,100 @@ const RequestCallback = ({
   const { keyboardShown } = useKeyboard();
 
   return (
-    <GCMViewer
-      bannerImage={CONSTANT_requestCallbackCover().uri}
-      title={"Have questions? We're here for you!"}
-      backAction={goBack}
-    >
-      <TranslucentStatusBar />
-      <CountryCodePicker
-        isVisible={isCountryCodePickerVisible}
-        onClose={toggleCCVisibility}
-        selectCountryCode={onSelectCountryCode}
-      />
-      <Picker
-        onSelectOption={onSelectContactHours}
-        isVisible={isModalVisible}
-        closeModal={toggleModalVisibility}
-        title={"Contact Hours"}
-        options={[
-          { text: contactHoursMap[1], value: 1 },
-          { text: contactHoursMap[2], value: 2 },
-          { text: contactHoursMap[3], value: 3 },
-          { text: contactHoursMap[4], value: 4 },
-          { text: contactHoursMap[5], value: 5 }
-        ]}
-      />
-      <KeyboardAwareScrollView
-        showsVerticalScrollIndicator={false}
-        style={styles.requestCallBackContainerStyle}
-      >
-        <FormTitle title="Enter contact details" />
+    <></>
+    // <GCMViewer
+    //   bannerImage={CONSTANT_requestCallbackCover().uri}
+    //   title={"Have questions? We're here for you!"}
+    //   backAction={goBack}
+    // >
+    //   <TranslucentStatusBar />
+    //   <CountryCodePicker
+    //     isVisible={isCountryCodePickerVisible}
+    //     onClose={toggleCCVisibility}
+    //     selectCountryCode={onSelectCountryCode}
+    //   />
+    //   <Picker
+    //     onSelectOption={onSelectContactHours}
+    //     isVisible={isModalVisible}
+    //     closeModal={toggleModalVisibility}
+    //     title={"Contact Hours"}
+    //     options={[
+    //       { text: contactHoursMap[1], value: 1 },
+    //       { text: contactHoursMap[2], value: 2 },
+    //       { text: contactHoursMap[3], value: 3 },
+    //       { text: contactHoursMap[4], value: 4 },
+    //       { text: contactHoursMap[5], value: 5 }
+    //     ]}
+    //   />
+    //   <KeyboardAwareScrollView
+    //     showsVerticalScrollIndicator={false}
+    //     style={styles.requestCallBackContainerStyle}
+    //   >
+    //     <FormTitle title="Enter contact details" />
 
-        <BlankSpacer height={24} />
+    //     <BlankSpacer height={24} />
 
-        <TextInputField
-          label={"NAME"}
-          value={formFields.name}
-          onChangeText={updateMethods.updateName}
-          placeholder="Name"
-          textInputRef={nameRef}
-          hasError={isSubmitAttempted && !formFields.name}
-          returnKeyType={"next"}
-          onSubmitEditing={() => mobileNumberRef.current?.focus()}
-        />
+    //     <TextInputField
+    //       label={"NAME"}
+    //       value={formFields.name}
+    //       onChangeText={updateMethods.updateName}
+    //       placeholder="Name"
+    //       textInputRef={nameRef}
+    //       hasError={isSubmitAttempted && !formFields.name}
+    //       returnKeyType={"next"}
+    //       onSubmitEditing={() => mobileNumberRef.current?.focus()}
+    //     />
 
-        <MobileNumberInputField
-          label={"MOBILE NUMBER"}
-          value={formFields.mobileNumber}
-          onChangeText={updateMethods.updateMobileNumber}
-          placeholder="Mobile number"
-          keyboardType="phone-pad"
-          textInputRef={mobileNumberRef}
-          hasError={
-            isSubmitAttempted &&
-            !validateMobileNumber(
-              `${formFields.countryCode}${formFields.mobileNumber}`
-            )
-          }
-          returnKeyType={"next"}
-          onSubmitEditing={() => emailAddressRef.current?.focus()}
-          countryCode={formFields.countryCode}
-          onCountryCodeClick={toggleCCVisibility}
-          countryCodeEmoji={countryCodeEmoji}
-        />
+    //     <MobileNumberInputField
+    //       label={"MOBILE NUMBER"}
+    //       value={formFields.mobileNumber}
+    //       onChangeText={updateMethods.updateMobileNumber}
+    //       placeholder="Mobile number"
+    //       keyboardType="phone-pad"
+    //       textInputRef={mobileNumberRef}
+    //       hasError={
+    //         isSubmitAttempted &&
+    //         !validateMobileNumber(
+    //           `${formFields.countryCode}${formFields.mobileNumber}`
+    //         )
+    //       }
+    //       returnKeyType={"next"}
+    //       onSubmitEditing={() => emailAddressRef.current?.focus()}
+    //       countryCode={formFields.countryCode}
+    //       onCountryCodeClick={toggleCCVisibility}
+    //       countryCodeEmoji={countryCodeEmoji}
+    //     />
 
-        <TextInputField
-          label={"EMAIL ADDRESS"}
-          value={formFields.email}
-          onChangeText={updateMethods.updateEmail}
-          placeholder="Email address"
-          keyboardType="email-address"
-          textInputRef={emailAddressRef}
-          hasError={isSubmitAttempted && !validateEmail(formFields.email)}
-          returnKeyType={"next"}
-          onSubmitEditing={toggleModalVisibility}
-        />
+    //     <TextInputField
+    //       label={"EMAIL ADDRESS"}
+    //       value={formFields.email}
+    //       onChangeText={updateMethods.updateEmail}
+    //       placeholder="Email address"
+    //       keyboardType="email-address"
+    //       textInputRef={emailAddressRef}
+    //       hasError={isSubmitAttempted && !validateEmail(formFields.email)}
+    //       returnKeyType={"next"}
+    //       onSubmitEditing={toggleModalVisibility}
+    //     />
 
-        <PickerInputField
-          onPressAction={toggleModalVisibility}
-          label={"Preferred call timings"}
-          value={contactHoursMap[formFields.contactHours]}
-          placeholder="call timings"
-          hasError={isSubmitAttempted && !formFields.contactHours}
-        />
+    //     <PickerInputField
+    //       onPressAction={toggleModalVisibility}
+    //       label={"Preferred call timings"}
+    //       value={contactHoursMap[formFields.contactHours]}
+    //       placeholder="call timings"
+    //       hasError={isSubmitAttempted && !formFields.contactHours}
+    //     />
 
-        <BlankSpacer height={166} />
-      </KeyboardAwareScrollView>
-      {!keyboardShown ? (
-        <BottomButtonBar
-          disableLeftButton
-          rightButtonName={"Request call back"}
-          rightButtonAction={submitCallbackRequest}
-        />
-      ) : null}
-    </GCMViewer>
+    //     <BlankSpacer height={166} />
+    //   </KeyboardAwareScrollView>
+    //   {!keyboardShown ? (
+    //     <BottomButtonBar
+    //       disableLeftButton
+    //       rightButtonName={"Request call back"}
+    //       rightButtonAction={submitCallbackRequest}
+    //     />
+    //   ) : null}
+    // </GCMViewer>
   );
 };
 

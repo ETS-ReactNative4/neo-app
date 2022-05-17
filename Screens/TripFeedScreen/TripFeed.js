@@ -31,7 +31,7 @@ import {
   initializeChat,
   setChatUserDetails,
 } from '../../Services/freshchatService/freshchatService';
-import SupportOfflineMessage from '../ChatScreen/Components/SupportOfflineMessage';
+// import SupportOfflineMessage from '../ChatScreen/Components/SupportOfflineMessage';
 import dialer from '../../Services/dialer/dialer';
 import {recordEvent} from '../../Services/analytics/analyticsService';
 import PropTypes from 'prop-types';
@@ -45,7 +45,7 @@ import {SCREEN_PLATO_CHAT} from '../../NavigatorsV2/ScreenNames';
 @inject('deviceDetailsStore')
 @inject('tripFeedStore')
 @inject('yourBookingsStore')
-@inject('feedbackPrompt')
+// @inject('feedbackPrompt')
 @inject('itineraries')
 @inject('chatDetailsStore')
 @inject('visaStore')
@@ -53,7 +53,7 @@ import {SCREEN_PLATO_CHAT} from '../../NavigatorsV2/ScreenNames';
 class TripFeed extends Component {
   static propTypes = {
     tripFeedStore: PropTypes.object,
-    feedbackPrompt: PropTypes.object,
+    // feedbackPrompt: PropTypes.object,
     itineraries: PropTypes.object,
     chatDetailsStore: PropTypes.object,
     navigation: PropTypes.object,
@@ -171,7 +171,7 @@ class TripFeed extends Component {
 
   loadTripFeedData = () => {
     const {generateTripFeed} = this.props.tripFeedStore;
-    const {fetchFeedBackData} = this.props.feedbackPrompt;
+    // const {fetchFeedBackData} = this.props.feedbackPrompt;
     generateTripFeed();
     pullToRefresh({
       itinerary: true,
@@ -282,9 +282,9 @@ class TripFeed extends Component {
         {this.state.tripFeedHeader}
         <NoInternetIndicator />
 
-        {isOffHours ? (
+        {/* {isOffHours ? (
           <SupportOfflineMessage time={currentTime} ctaAction={openDialer} />
-        ) : null}
+        ) : null} */}
         <CustomScrollView
           onRefresh={this.loadTripFeedData}
           refreshing={isLoading}

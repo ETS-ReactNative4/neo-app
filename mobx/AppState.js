@@ -16,10 +16,10 @@ import {toastBottom} from '../Services/toast/toast';
 import {hydrate} from './Store';
 import {setChatPushToken} from '../Services/freshchatService/freshchatService';
 
-const {
-  conversionRateError,
-  currencyDetailsError,
-} = constants.currencyConverterText;
+// const {
+//   conversionRateError,
+//   currencyDetailsError,
+// } = constants.currencyConverterText;
 const {logOutError} = constants.logOutText;
 
 class AppState {
@@ -158,26 +158,26 @@ class AppState {
       });
   };
 
-  currencyConverter = createTransformer(({amount, from, to}) => {
-    const quotes = this.conversionRates;
+  // currencyConverter = createTransformer(({amount, from, to}) => {
+  //   const quotes = this.conversionRates;
 
-    amount = parseFloat(amount);
+  //   amount = parseFloat(amount);
 
-    function toUS(actualAmount) {
-      const quote = quotes[from];
-      return actualAmount / quote;
-    }
+  //   function toUS(actualAmount) {
+  //     const quote = quotes[from];
+  //     return actualAmount / quote;
+  //   }
 
-    function toNative(usAmount) {
-      const quote = quotes[to];
-      return usAmount * quote;
-    }
+  //   function toNative(usAmount) {
+  //     const quote = quotes[to];
+  //     return usAmount * quote;
+  //   }
 
-    const firstConversion = toUS(amount);
-    const result = toNative(firstConversion);
+  //   const firstConversion = toUS(amount);
+  //   const result = toNative(firstConversion);
 
-    return result.toFixed(2);
-  });
+  //   return result.toFixed(2);
+  // });
 
   @persist('object')
   @observable

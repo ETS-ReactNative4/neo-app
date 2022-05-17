@@ -100,16 +100,16 @@ class Tools extends Component {
     });
 
     const essentialTools = [
-      {
-        text: `Currency Calculator`,
-        action: () => {
-          recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.currencyConverter,
-          });
-          navigation.navigate(SCREEN_CURRENCY_CONVERTER);
-        },
-        icon: constants.currencyCalculatorIcon,
-      },
+      // {
+      //   text: `Currency Calculator`,
+      //   action: () => {
+      //     recordEvent(constants.Tools.event, {
+      //       click: constants.Tools.click.currencyConverter,
+      //     });
+      //     navigation.navigate(SCREEN_CURRENCY_CONVERTER);
+      //   },
+      //   icon: constants.currencyCalculatorIcon,
+      // },
       {
         icon: constants.commonPhrasesIcon,
         text: `Common Phrases`,
@@ -120,16 +120,16 @@ class Tools extends Component {
           navigation.navigate(SCREEN_PHRASE_BOOK);
         },
       },
-      {
-        icon: constants.emergencyContactsIcon,
-        text: `Emergency Contacts`,
-        action: () => {
-          recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.emergencyContacts,
-          });
-          navigation.navigate(SCREEN_EMERGENCY_CONTACTS);
-        },
-      },
+      // {
+      //   icon: constants.emergencyContactsIcon,
+      //   text: `Emergency Contacts`,
+      //   action: () => {
+      //     recordEvent(constants.Tools.event, {
+      //       click: constants.Tools.click.emergencyContacts,
+      //     });
+      //     navigation.navigate(SCREEN_EMERGENCY_CONTACTS);
+      //   },
+      // },
       {
         icon: constants.weatherForecastIcon,
         text: `Weather Forecast`,

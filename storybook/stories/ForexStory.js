@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { storiesOf } from "@storybook/react-native";
-import ForexProviderInfo from "../../Screens/ForexScreen/Components/ForexProviderInfo";
-import ForexFeatureLineItem from "../../Screens/ForexScreen/Components/ForexFeaturesList/Component/ForexFeatureLineItem";
-import ForexFeaturesList from "../../Screens/ForexScreen/Components/ForexFeaturesList/ForexFeaturesList";
-import ForexInputField from "../../Screens/ForexScreen/Components/ForexInputField";
-import ForexSwitchComponent from "../../Screens/ForexScreen/Components/ForexSwitchComponent";
-import ForexAmountField from "../../Screens/ForexScreen/Components/ForexAmountField";
+// import ForexProviderInfo from "../../Screens/ForexScreen/Components/ForexProviderInfo";
+// import ForexFeatureLineItem from "../../Screens/ForexScreen/Components/ForexFeaturesList/Component/ForexFeatureLineItem";
+// import ForexFeaturesList from "../../Screens/ForexScreen/Components/ForexFeaturesList/ForexFeaturesList";
+// import ForexInputField from "../../Screens/ForexScreen/Components/ForexInputField";
+// import ForexSwitchComponent from "../../Screens/ForexScreen/Components/ForexSwitchComponent";
+// import ForexAmountField from "../../Screens/ForexScreen/Components/ForexAmountField";
 import { responsiveWidth } from "react-native-responsive-dimensions";
 
 const features = [
@@ -59,152 +59,152 @@ class ForexInputWrapper extends Component {
 
   onEdit = value => this.setState({ value });
 
-  render() {
-    return (
-      <ForexInputField
-        value={this.state.value}
-        onEdit={this.onEdit}
-        placeholder={"Your Name..."}
-        label={"Name"}
-      />
-    );
-  }
+  // render() {
+  //   return (
+  //     <ForexInputField
+  //       value={this.state.value}
+  //       onEdit={this.onEdit}
+  //       placeholder={"Your Name..."}
+  //       label={"Name"}
+  //     />
+  //   );
+  // }
 }
 
-class ForexMobileNumberWrapper extends Component {
-  state = {
-    value: "",
-    ccode: "+91"
-  };
+// class ForexMobileNumberWrapper extends Component {
+//   state = {
+//     value: "",
+//     ccode: "+91"
+//   };
 
-  componentDidMount() {
-    this.setState({
-      value: this.props.value
-    });
-  }
+//   componentDidMount() {
+//     this.setState({
+//       value: this.props.value
+//     });
+//   }
 
-  onEdit = value => this.setState({ value });
+//   onEdit = value => this.setState({ value });
 
-  selectCountryCode = ccode => this.setState({ ccode });
+//   selectCountryCode = ccode => this.setState({ ccode });
 
-  render() {
-    return (
-      <ForexInputField
-        isMobileNumberField={true}
-        value={this.state.value}
-        selectedCountryCode={this.state.ccode}
-        onEdit={this.onEdit}
-        placeholder={"Your Number..."}
-        keyboardType={"phone-pad"}
-        label={"Mobile Number"}
-        onSelectCountryCode={this.selectCountryCode}
-      />
-    );
-  }
-}
+//   render() {
+//     return (
+//       <ForexInputField
+//         isMobileNumberField={true}
+//         value={this.state.value}
+//         selectedCountryCode={this.state.ccode}
+//         onEdit={this.onEdit}
+//         placeholder={"Your Number..."}
+//         keyboardType={"phone-pad"}
+//         label={"Mobile Number"}
+//         onSelectCountryCode={this.selectCountryCode}
+//       />
+//     );
+//   }
+// }
 
-class ForexSwitchWrapper extends Component {
-  state = {
-    selectedOption: 0
-  };
+// class ForexSwitchWrapper extends Component {
+//   state = {
+//     selectedOption: 0
+//   };
 
-  selectOption = selectedOption => this.setState({ selectedOption });
+//   selectOption = selectedOption => this.setState({ selectedOption });
 
-  render() {
-    return (
-      <ForexSwitchComponent
-        label={"Product"}
-        options={forexOptions}
-        onSelect={this.selectOption}
-        selectedValue={this.state.selectedOption}
-      />
-    );
-  }
-}
+//   render() {
+//     return (
+//       <ForexSwitchComponent
+//         label={"Product"}
+//         options={forexOptions}
+//         onSelect={this.selectOption}
+//         selectedValue={this.state.selectedOption}
+//       />
+//     );
+//   }
+// }
 
-class ForexAmountWrapper extends Component {
-  state = {
-    amount: "",
-    selectedCurrency: "INR"
-  };
+// class ForexAmountWrapper extends Component {
+//   state = {
+//     amount: "",
+//     selectedCurrency: "INR"
+//   };
 
-  onEditAmount = amount => this.setState({ amount });
+//   onEditAmount = amount => this.setState({ amount });
 
-  onSelectCurrency = selectedCurrency => this.setState({ selectedCurrency });
+//   onSelectCurrency = selectedCurrency => this.setState({ selectedCurrency });
 
-  render() {
-    return (
-      <ForexAmountField
-        amount={this.state.amount}
-        onEdit={this.onEditAmount}
-        selectedCurrency={this.state.selectedCurrency}
-        onSelectCurrency={this.onSelectCurrency}
-        currencies={currencyList}
-        label={"Amount"}
-      />
-    );
-  }
-}
+//   render() {
+//     return (
+//       <ForexAmountField
+//         amount={this.state.amount}
+//         onEdit={this.onEditAmount}
+//         selectedCurrency={this.state.selectedCurrency}
+//         onSelectCurrency={this.onSelectCurrency}
+//         currencies={currencyList}
+//         label={"Amount"}
+//       />
+//     );
+//   }
+// }
 
 storiesOf("Forex Story", module)
-  .add("Forex Provider Info", () => {
-    const props = {};
-    console.log(props);
-    return <ForexProviderInfo {...props} />;
-  })
-  .add("Forex Feature Line Item", () => {
-    const props = {
-      item: features[0]
-    };
-    console.log(props);
-    return <ForexFeatureLineItem {...props} />;
-  })
-  .add("Forex Feature Line Item multilines", () => {
-    const props = {
-      item: features[1]
-    };
-    console.log(props);
-    return <ForexFeatureLineItem {...props} />;
-  })
-  .add("Forex Features List", () => {
-    const props = {
-      features
-    };
-    console.log(props);
-    return <ForexFeaturesList {...props} />;
-  })
-  .add("Forex Features List without bullet icons", () => {
-    const props = {
-      features
-    };
-    console.log(props);
-    return <ForexFeaturesList {...props} hideIcon={true} />;
-  })
-  .add("Forex Features List highlighted", () => {
-    const props = {
-      features
-    };
-    console.log(props);
-    return <ForexFeaturesList {...props} highlight={true} />;
-  })
-  .add("Forex Features custom line width", () => {
-    const props = {
-      features
-    };
-    console.log(props);
-    return <ForexFeaturesList {...props} lineWidth={responsiveWidth(50)} />;
-  })
-  .add("Forex Input field", () => {
-    const props = {};
-    return <ForexInputWrapper {...props} />;
-  })
-  .add("Forex Mobile Input field", () => {
-    const props = {};
-    return <ForexMobileNumberWrapper {...props} />;
-  })
-  .add("Forex Switch field", () => {
-    return <ForexSwitchWrapper />;
-  })
-  .add("Forex Amount field", () => {
-    return <ForexAmountWrapper />;
-  });
+  // .add("Forex Provider Info", () => {
+  //   const props = {};
+  //   console.log(props);
+  //   return <ForexProviderInfo {...props} />;
+  // })
+  // .add("Forex Feature Line Item", () => {
+  //   const props = {
+  //     item: features[0]
+  //   };
+  //   console.log(props);
+  //   return <ForexFeatureLineItem {...props} />;
+  // })
+  // .add("Forex Feature Line Item multilines", () => {
+  //   const props = {
+  //     item: features[1]
+  //   };
+  //   console.log(props);
+  //   return <ForexFeatureLineItem {...props} />;
+  // })
+  // .add("Forex Features List", () => {
+  //   const props = {
+  //     features
+  //   };
+  //   console.log(props);
+  //   return <ForexFeaturesList {...props} />;
+  // })
+  // .add("Forex Features List without bullet icons", () => {
+  //   const props = {
+  //     features
+  //   };
+  //   console.log(props);
+  //   return <ForexFeaturesList {...props} hideIcon={true} />;
+  // })
+  // .add("Forex Features List highlighted", () => {
+  //   const props = {
+  //     features
+  //   };
+  //   console.log(props);
+  //   return <ForexFeaturesList {...props} highlight={true} />;
+  // })
+  // .add("Forex Features custom line width", () => {
+  //   const props = {
+  //     features
+  //   };
+  //   console.log(props);
+  //   return <ForexFeaturesList {...props} lineWidth={responsiveWidth(50)} />;
+  // })
+  // .add("Forex Input field", () => {
+  //   const props = {};
+  //   return <ForexInputWrapper {...props} />;
+  // })
+  // .add("Forex Mobile Input field", () => {
+  //   const props = {};
+  //   return <ForexMobileNumberWrapper {...props} />;
+  // })
+  // .add("Forex Switch field", () => {
+  //   return <ForexSwitchWrapper />;
+  // })
+  // .add("Forex Amount field", () => {
+  //   return <ForexAmountWrapper />;
+  // });

@@ -8,8 +8,8 @@ import {
   SCREEN_JOURNAL_TAB,
 } from './ScreenNames';
 import TripFeed from '../Screens/TripFeedScreen/TripFeed';
-import BookingsHome from '../Screens/BookingsHomeScreen/BookingsHome';
-import ChatScreen from '../Screens/ChatScreen/ChatScreen';
+// import BookingsHome from '../Screens/BookingsHomeScreen/BookingsHome';
+// import ChatScreen from '../Screens/ChatScreen/ChatScreen';
 import Tools from '../Screens/ToolsScreen/Tools';
 import Journal from '../Screens/JournalScreen/Journal';
 import PostBookingBottomBar from './Components/PostBookingBottomBar';
@@ -92,7 +92,7 @@ const PostBookingHomeTabs = ({
         component={TripFeed}
         name={SCREEN_TRIP_FEED_TAB}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         options={{
           tabBarLabel: 'Bookings',
           icon: CONSTANT_bookingIcon,
@@ -101,8 +101,8 @@ const PostBookingHomeTabs = ({
         }}
         component={BookingsHome}
         name={SCREEN_BOOKING_TAB}
-      />
-      <Tab.Screen
+      /> */}
+      {/* <Tab.Screen
         options={{
           tabBarLabel: 'Support',
           icon: CONSTANT_supportIconLight,
@@ -111,7 +111,7 @@ const PostBookingHomeTabs = ({
         }}
         component={ChatScreen}
         name={SCREEN_SUPPORT_TAB}
-      />
+      /> */}
       <Tab.Screen
         options={{
           tabBarLabel: 'Tools',

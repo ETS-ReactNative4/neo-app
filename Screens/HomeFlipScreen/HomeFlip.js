@@ -4,7 +4,7 @@ import HomeHeader from "../../CommonComponents/HomeHeader/HomeHeader";
 import FlipView from "react-native-flip-view-next";
 import { inject, observer } from "mobx-react";
 import Home from "../HomeScreen/Home";
-import BookingsHome from "../BookingsHomeScreen/BookingsHome";
+// import BookingsHome from "../BookingsHomeScreen/BookingsHome";
 
 @inject("appState")
 @observer
@@ -15,9 +15,9 @@ class HomeFlip extends Component {
     return <Home />;
   };
 
-  _renderBack = () => {
-    return <BookingsHome />;
-  };
+  // _renderBack = () => {
+  //   return <BookingsHome />;
+  // };
 
   render() {
     const { isTripModeOn } = this.props.appState;

@@ -22,10 +22,10 @@ import {
   SCREEN_APP_LOGIN
 } from "../../../../NavigatorsV2/ScreenNames";
 import { ICity } from "../../../../TypeInterfaces/IItinerary";
-import {
-  IGCMRequestBody,
-  ICostingConfig
-} from "../../../GCMScreen/hooks/useGCMForm";
+// import {
+//   IGCMRequestBody,
+//   ICostingConfig
+// } from "../../../GCMScreen/hooks/useGCMForm";
 import HighlightText from "../HighlightText";
 import deepLink from "../../../../Services/deepLink/deepLink";
 import {
@@ -52,19 +52,19 @@ import apiCall from "../../../../Services/networkRequests/apiCall";
 import { toastBottom } from "../../../../Services/toast/toast";
 import openCustomTab from "../../../../Services/openCustomTab/openCustomTab";
 
-export interface CampaignItineraryProps extends ItineraryNavType {
-  itineraryDetails: ReturnType<typeof useUnbookedItinerary>;
-  campaignItineraryState: ICampaignItinerary | null;
-  updateFocusedCity: (city: ICity) => any;
-  updateBannerDetails: (details: IBannerDetails) => void;
-  updateCampaignItineraryCost: (
-    campaignItineraryId: string,
-    config: IGCMRequestBody
-  ) => any;
-  updateItineraryCost: (itineraryId: string, config: IGCMRequestBody) => any;
-  leadSourceStore?: LeadSource;
-  displayCurrency: string;
-}
+// export interface CampaignItineraryProps extends ItineraryNavType {
+//   itineraryDetails: ReturnType<typeof useUnbookedItinerary>;
+//   campaignItineraryState: ICampaignItinerary | null;
+//   updateFocusedCity: (city: ICity) => any;
+//   updateBannerDetails: (details: IBannerDetails) => void;
+//   updateCampaignItineraryCost: (
+//     campaignItineraryId: string,
+//     config: IGCMRequestBody
+//   ) => any;
+//   updateItineraryCost: (itineraryId: string, config: IGCMRequestBody) => any;
+//   leadSourceStore?: LeadSource;
+//   displayCurrency: string;
+// }
 
 const CampaignItinerary = ({
   itineraryDetails,

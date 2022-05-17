@@ -6,20 +6,20 @@ import MobileNumber from "../Screens/MobileNumberScreen/MobileNumber";
 import Places from "../Screens/PlacesScreen/Places";
 import NearBy from "../Screens/NearByScreen/NearBy";
 import Visa from "../Screens/VisaScreen/Visa";
-import CurrencyConverter from "../Screens/CurrencyConverterScreen/CurrencyConverter";
+// import CurrencyConverter from "../Screens/CurrencyConverterScreen/CurrencyConverter";
 import PhraseBook from "../Screens/PhraseBookScreen/PhraseBook";
 import PackingChecklist from "../Screens/PackingChecklistScreen/PackingChecklist";
 import PassportDetails from "../Screens/PassportDetailsScreen/PassportDetails";
-import EmergencyContacts from "../Screens/EmergencyContactsScreen/EmergencyContacts";
+// import EmergencyContacts from "../Screens/EmergencyContactsScreen/EmergencyContacts";
 import Weather from "../Screens/WeatherScreen/Weather";
 import VisaChecklist from "../Screens/VisaChecklistScreen/VisaChecklist";
 import SupportCenter from "../Screens/SupportCenterScreen/SupportCenter";
-import FAQ from "../Screens/FAQScreens/FAQScreen/FAQ";
-import FAQAnswers from "../Screens/FAQScreens/FAQAnswersScreen/FAQAnswers";
-import ContactUs from "../Screens/ContactUsScreen/ContactUs";
+// import FAQ from "../Screens/FAQScreens/FAQScreen/FAQ";
+// import FAQAnswers from "../Screens/FAQScreens/FAQAnswersScreen/FAQAnswers";
+// import ContactUs from "../Screens/ContactUsScreen/ContactUs";
 import YourTickets from "../Screens/YourTicketsScreen/YourTickets";
 import TicketsConversation from "../Screens/TicketsConversationScreen/TicketsConversation";
-import Forex from "../Screens/ForexScreen/Forex";
+// import Forex from "../Screens/ForexScreen/Forex";
 import VisaSelector from "../Screens/VisaSelectorScreen/VisaSelector";
 import VisaStatus from "../Screens/VisaStatusScreen/VisaStatus";
 import VisaHelp from "../Screens/VisaHelpScreen/VisaHelp";
@@ -51,9 +51,9 @@ const MainStack = createStackNavigator(
     VisaBooked: {
       screen: Visa
     },
-    CurrencyConverter: {
-      screen: CurrencyConverter
-    },
+    // CurrencyConverter: {
+    //   screen: CurrencyConverter
+    // },
     PhraseBook: {
       screen: PhraseBook
     },
@@ -63,9 +63,9 @@ const MainStack = createStackNavigator(
     PassportDetails: {
       screen: PassportDetails
     },
-    EmergencyContacts: {
-      screen: EmergencyContacts
-    },
+    // EmergencyContacts: {
+    //   screen: EmergencyContacts
+    // },
     Weather: {
       screen: Weather
     },
@@ -99,18 +99,18 @@ const MainStack = createStackNavigator(
     SupportCenter: {
       screen: SupportCenter
     },
-    FAQ: {
-      screen: FAQ
-    },
-    FAQAnswers: {
-      screen: FAQAnswers
-    },
-    Forex: {
-      screen: Forex
-    },
-    ContactUs: {
-      screen: ContactUs
-    },
+    // FAQ: {
+    //   screen: FAQ
+    // },
+    // FAQAnswers: {
+    //   screen: FAQAnswers
+    // },
+    // Forex: {
+    //   screen: Forex
+    // },
+    // ContactUs: {
+    //   screen: ContactUs
+    // },
     YourTickets: {
       screen: YourTickets
     },

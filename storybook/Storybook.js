@@ -9,7 +9,7 @@ import {CONSTANT_white1, CONSTANT_shade3} from '../constants/colorPallete';
 addDecorator(story => <View style={styles.storyWrapper}>{story()}</View>);
 
 configure(() => {
-  require('./stories/ChatScreenStory');
+  // require('./stories/ChatScreenStory');
   require('./stories/CommonComponentsStory');
   require('./stories/TripFeedStory');
   require('./stories/PackagesPageStory');
@@ -32,7 +32,7 @@ configure(() => {
   require('./stories/UltimateMenuScreenStory');
   require('./stories/TravellerProfileDetailsScreenStory');
   require('./stories/ItineraryScreenStory');
-  require('./stories/GCMFormScreenStory');
+  // require('./stories/GCMFormScreenStory');
   require('./stories/SearchScreenStory');
   require('./stories/TripIntensityScreenStory');
 }, module);

@@ -10,7 +10,7 @@ import MessageBlob from "../SupportCenterScreen/Components/MessageBlob";
 import HelpDeskSectionTitle from "../SupportCenterScreen/Components/HelpDeskSectionTitle";
 import MessageInput from "../SupportCenterScreen/Components/MessageInput";
 import { responsiveWidth } from "react-native-responsive-dimensions";
-import ContactActionBar from "../ContactUsScreen/Components/ContactActionBar";
+// import ContactActionBar from "../ContactUsScreen/Components/ContactActionBar";
 import DebouncedAlert from "../../CommonComponents/DebouncedAlert/DebouncedAlert";
 import PropTypes from "prop-types";
 import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
@@ -233,13 +233,13 @@ class TicketsConversation extends Component {
           />
           <View style={styles.blobPlaceholder} />
         </CustomScrollView>
-        <ContactActionBar
+        {/* <ContactActionBar
           containerStyle={styles.inputActionBar}
           navigation={this.props.navigation}
           keyBoardStateChange={this.keyBoardStateChange}
           sendAction={this.state.isSending ? () => null : this.sendMessage}
           cancelAction={this.cancelMessage}
-        />
+        /> */}
       </View>
     );
   }

@@ -149,7 +149,7 @@ const appEvents = {
       currencyConverter: 'currency_converter',
       placesTile: 'places_tile',
       commonPhrases: 'common_phrases',
-      emergencyContacts: 'emergency_contacts',
+      // emergencyContacts: 'emergency_contacts',
       weatherForecast: 'weather_forecast',
       helpDesk: 'help_desk',
       passport: 'passport',
@@ -208,21 +208,21 @@ const appEvents = {
       selectLanguage: 'select_language',
     },
   },
-  EmergencyContacts: {
-    event: 'EmergencyContacts',
-    click: {
-      phoneNumber: 'phone_number',
-      directions: 'directions',
-    },
-    type: {
-      police: 'police',
-      ambulance: 'ambulance',
-      fire: 'fire',
-      missingChildren: 'missing_children',
-      embassy: 'embassy',
-      nationalEmergencyNumber: 'national_emergency_number',
-    },
-  },
+  // EmergencyContacts: {
+  //   event: 'EmergencyContacts',
+  //   click: {
+  //     phoneNumber: 'phone_number',
+  //     directions: 'directions',
+  //   },
+  //   type: {
+  //     police: 'police',
+  //     ambulance: 'ambulance',
+  //     fire: 'fire',
+  //     missingChildren: 'missing_children',
+  //     embassy: 'embassy',
+  //     nationalEmergencyNumber: 'national_emergency_number',
+  //   },
+  // },
   PackingChecklist: {
     event: 'PackingChecklist',
     click: {
@@ -410,7 +410,7 @@ export const CONSTANT_Tools = {
     currencyConverter: 'currency_converter',
     placesTile: 'places_tile',
     commonPhrases: 'common_phrases',
-    emergencyContacts: 'emergency_contacts',
+    // emergencyContacts: 'emergency_contacts',
     weatherForecast: 'weather_forecast',
     helpDesk: 'help_desk',
     passport: 'passport',
@@ -469,20 +469,20 @@ export const CONSTANT_CommonPhrases = {
     selectLanguage: 'select_language',
   },
 };
-export const CONSTANT_EmergencyContacts = {
-  event: 'EmergencyContacts',
-  click: {
-    phoneNumber: 'phone_number',
-    directions: 'directions',
-  },
-  type: {
-    police: 'police',
-    ambulance: 'ambulance',
-    fire: 'fire',
-    missingChildren: 'missing_children',
-    embassy: 'embassy',
-  },
-};
+// export const CONSTANT_EmergencyContacts = {
+//   event: 'EmergencyContacts',
+//   click: {
+//     phoneNumber: 'phone_number',
+//     directions: 'directions',
+//   },
+//   type: {
+//     police: 'police',
+//     ambulance: 'ambulance',
+//     fire: 'fire',
+//     missingChildren: 'missing_children',
+//     embassy: 'embassy',
+//   },
+// };
 export const CONSTANT_PackingChecklist = {
   event: 'PackingChecklist',
   click: {

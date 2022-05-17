@@ -18,7 +18,7 @@ import {
   SCREEN_POST_BOOKING_HOME,
   SCREEN_YOUR_BOOKINGS,
   SCREEN_POST_BOOKING_INTRO,
-  SCREEN_AGENT_FEEDBACK,
+  // SCREEN_AGENT_FEEDBACK,
   SCREEN_AGENT_INFO,
   SCREEN_PROMO_PAGE,
   SCREEN_ULTIMATE_MENU,
@@ -29,19 +29,19 @@ import {
   SCREEN_TRIP_INTENSITY,
   SCREEN_ITINERARY,
   SCREEN_REQUEST_CALLBACK,
-  SCREEN_GCM,
-  SCREEN_GCM_CITY_PICKER,
-  SCREEN_GCM_ROOM_CONFIG,
-  SCREEN_BOOKED_ITINERARY,
-  SCREEN_FAQ,
-  SCREEN_CONTACT_US,
-  SCREEN_TICKETS_CONVERSATION,
+  // SCREEN_GCM,
+  // SCREEN_GCM_CITY_PICKER,
+  // SCREEN_GCM_ROOM_CONFIG,
+  // SCREEN_BOOKED_ITINERARY,
+  // SCREEN_FAQ,
+  // SCREEN_CONTACT_US,
+  // SCREEN_TICKETS_CONVERSATION,
   SCREEN_YOUR_TICKETS,
-  SCREEN_CURRENCY_CONVERTER,
+  // SCREEN_CURRENCY_CONVERTER,
   SCREEN_PHRASE_BOOK,
   SCREEN_PACKING_CHECKLIST,
   SCREEN_PASSPORT_DETAILS,
-  SCREEN_EMERGENCY_CONTACTS,
+  // SCREEN_EMERGENCY_CONTACTS,
   SCREEN_WEATHER,
   SCREEN_PLACES,
   SCREEN_NEAR_BY,
@@ -51,7 +51,7 @@ import {
   SCREEN_VISA_STATUS,
   SCREEN_VISA_HELP,
   SCREEN_SUPPORT_CENTER,
-  SCREEN_FOREX,
+  // SCREEN_FOREX,
   SCREEN_VISA_SELECTOR,
   SCREEN_JOURNAL_START,
   SCREEN_JOURNAL_SETUP,
@@ -65,7 +65,7 @@ import {
   SCREEN_PAYMENT_SCREEN,
   SCREEN_PAYMENT_SUCCESS,
   SCREEN_PAYMENT_FAILURE,
-  SCREEN_BUDGET_PREFERENCES,
+  // SCREEN_BUDGET_PREFERENCES,
   SCREEN_VISA_DOCUMENT_ACTION_SHEET,
   SCREEN_NOTIFICATION_ANSWER,
   SCREEN_GCM_NATIONALITY_PICKER,
@@ -117,24 +117,24 @@ import Itinerary, {
   itinerarySourceType,
 } from '../Screens/ItineraryScreen/Itinerary';
 import RequestCallback from '../Screens/RequestCallback/RequestCallback';
-import GCM from '../Screens/GCMScreen/GCM';
-import GCMCityPicker from '../Screens/GCMCityPickerScreen/GCMCityPicker';
-import {
-  IIndianCity,
-  IHotelGuestRoomConfig,
-  ICostingConfig,
-} from '../Screens/GCMScreen/hooks/useGCMForm';
-import GCMRoomConfig from '../Screens/GCMRoomConfig/GCMRoomConfig';
+// import GCM from '../Screens/GCMScreen/GCM';
+// import GCMCityPicker from '../Screens/GCMCityPickerScreen/GCMCityPicker';
+// import {
+//   IIndianCity,
+//   IHotelGuestRoomConfig,
+//   ICostingConfig,
+// } from '../Screens/GCMScreen/hooks/useGCMForm';
+// import GCMRoomConfig from '../Screens/GCMRoomConfig/GCMRoomConfig';
 // import BookedItinerary from '../Screens/BookedItineraryScreen/BookedItinerary';
-import FAQ from '../Screens/FAQScreens/FAQScreen/FAQ';
-import ContactUs from '../Screens/ContactUsScreen/ContactUs';
+// import FAQ from '../Screens/FAQScreens/FAQScreen/FAQ';
+// import ContactUs from '../Screens/ContactUsScreen/ContactUs';
 import TicketsConversation from '../Screens/TicketsConversationScreen/TicketsConversation';
 import YourTickets from '../Screens/YourTicketsScreen/YourTickets';
-import CurrencyConverter from '../Screens/CurrencyConverterScreen/CurrencyConverter';
+// import CurrencyConverter from '../Screens/CurrencyConverterScreen/CurrencyConverter';
 import PhraseBook from '../Screens/PhraseBookScreen/PhraseBook';
 import PackingChecklist from '../Screens/PackingChecklistScreen/PackingChecklist';
 import PassportDetails from '../Screens/PassportDetailsScreen/PassportDetails';
-import EmergencyContacts from '../Screens/EmergencyContactsScreen/EmergencyContacts';
+// import EmergencyContacts from '../Screens/EmergencyContactsScreen/EmergencyContacts';
 import Weather from '../Screens/WeatherScreen/Weather';
 import Places from '../Screens/PlacesScreen/Places';
 import NearBy from '../Screens/NearByScreen/NearBy';
@@ -145,7 +145,7 @@ import VisaDocsChecklist from '../Screens/VisaDocsChecklistScreen/VisaDocsCheckl
 import VisaStatus from '../Screens/VisaStatusScreen/VisaStatus';
 import VisaHelp from '../Screens/VisaHelpScreen/VisaHelp';
 import SupportCenter from '../Screens/SupportCenterScreen/SupportCenter';
-import Forex from '../Screens/ForexScreen/Forex';
+// import Forex from '../Screens/ForexScreen/Forex';
 import JournalStart from '../Screens/JournalStartScreen/JournalStart';
 import JournalSetup from '../Screens/JournalSetupScreen/JournalSetup';
 import JournalDaySelector from '../Screens/JournalDaySelectorScreen/JournalDaySelector';
@@ -158,13 +158,13 @@ import PaymentSummary from '../Screens/PaymentSummaryScreen/PaymentSummary';
 import PaymentSuccess from '../Screens/PaymentScreens/PaymentSuccess';
 import PaymentFailure from '../Screens/PaymentScreens/PaymentFailure';
 import PaymentScreen from '../Screens/PaymentScreens/PaymentScreen';
-import BudgetPreferences from '../Screens/BudgetPreferencesScreen/BudgetPreferences';
+// import BudgetPreferences from '../Screens/BudgetPreferencesScreen/BudgetPreferences';
 import VisaDocumentsActionSheet from '../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet';
 import {leadSourceProdType} from '../Screens/RequestCallback/hooks/useRequestCallbackApi';
 import NotificationsAnswer from '../Screens/NotificationsAnswerScreen/NotificationsAnswer';
-import GCMNationalityPicker, {
-  INationalityOption,
-} from '../Screens/GCMNationalityPicker/GCMNationalityPicker';
+// import GCMNationalityPicker, {
+//   INationalityOption,
+// } from '../Screens/GCMNationalityPicker/GCMNationalityPicker';
 import SearchListingCardsPage from '../Screens/SearchListingCardsPage/SearchListingCardsPage';
 import ListingPage from '../Screens/ListingPageScreen/ListingPage';
 import PreTripIntroScreen from '../Screens/PreTripIntroScreen/PreTripIntroScreen';
@@ -184,7 +184,7 @@ import {
   StayHotelRoomListParamType,
 } from '../Screens/StayHotelRoomList/StayHotelRoomList';
 import Search from '../Screens/SearchV2/Search';
-import PlatoChat from '../Screens/ChatScreen/PlatoChat';
+// import PlatoChat from '../Screens/ChatScreen/PlatoChat';
 import Upload from '../Screens/UploadScreen/Upload';
 
 export type loginResetTargetTypes = typeof SCREEN_SAVED_ITINERARIES;
@@ -224,20 +224,20 @@ export type AppNavigatorParamsType = {
         isPositive: boolean;
       };
   [SCREEN_TRIP_INTENSITY]: undefined;
-  [SCREEN_BUDGET_PREFERENCES]: undefined;
+  // [SCREEN_BUDGET_PREFERENCES]: undefined;
   [SCREEN_STORY_BOOK]: undefined;
   [SCREEN_NOTIFICATION_DETAILS]: {
     notification: IItineraryNotification;
   };
-  [SCREEN_NOTIFICATION_FAQ]: {
-    itineraryId: string;
-    isDomestic: boolean;
-  };
-  [SCREEN_NOTIFICATION_ANSWER]: {
-    title: string;
-    disableMessaging: boolean;
-    getFaqByType: (type: string) => any;
-  };
+  // [SCREEN_NOTIFICATION_FAQ]: {
+  //   itineraryId: string;
+  //   isDomestic: boolean;
+  // };
+  // [SCREEN_NOTIFICATION_ANSWER]: {
+  //   title: string;
+  //   disableMessaging: boolean;
+  //   getFaqByType: (type: string) => any;
+  // };
   [SCREEN_YOUR_BOOKINGS]: undefined;
   [SCREEN_POST_BOOKING_INTRO]: {introData: IIntroData[]};
   [SCREEN_AGENT_INFO]: {
@@ -267,46 +267,46 @@ export type AppNavigatorParamsType = {
     slug?: string;
     prodType: leadSourceProdType;
   };
-  [SCREEN_GCM]: {
-    title: string;
-    bannerImage: string;
-    costingConfig: ICostingConfig | null;
-    campaignItineraryId?: string;
-    itineraryId?: string;
-    onSubmit: (config: ICostingConfig) => any;
-  };
-  [SCREEN_GCM_CITY_PICKER]: {
-    title: string;
-    onSelect: (selectedCity: IIndianCity) => any;
-    bannerImage: string;
-  };
-  [SCREEN_GCM_NATIONALITY_PICKER]: {
-    title: string;
-    onSelect: (selectedOption: INationalityOption) => any;
-    bannerImage: string;
-  };
-  [SCREEN_GCM_ROOM_CONFIG]: {
-    title: string;
-    onSelect: (selectedConfig: IHotelGuestRoomConfig[]) => any;
-    bannerImage: string;
-    maxRoom?: number;
-    roomConfig: IHotelGuestRoomConfig[] | StayHotelRoomConfigurationType[];
-  };
+  // [SCREEN_GCM]: {
+  //   title: string;
+  //   bannerImage: string;
+  //   costingConfig: ICostingConfig | null;
+  //   campaignItineraryId?: string;
+  //   itineraryId?: string;
+  //   onSubmit: (config: ICostingConfig) => any;
+  // };
+  // [SCREEN_GCM_CITY_PICKER]: {
+  //   title: string;
+  //   onSelect: (selectedCity: IIndianCity) => any;
+  //   bannerImage: string;
+  // };
+  // [SCREEN_GCM_NATIONALITY_PICKER]: {
+  //   title: string;
+  //   onSelect: (selectedOption: INationalityOption) => any;
+  //   bannerImage: string;
+  // };
+  // [SCREEN_GCM_ROOM_CONFIG]: {
+  //   title: string;
+  //   onSelect: (selectedConfig: IHotelGuestRoomConfig[]) => any;
+  //   bannerImage: string;
+  //   maxRoom?: number;
+  //   roomConfig: IHotelGuestRoomConfig[] | StayHotelRoomConfigurationType[];
+  // };
   [SCREEN_BOOKED_ITINERARY]: {
     selectedDate: string;
   };
-  [SCREEN_FAQ]: {
-    title: string;
-    disableMessaging?: boolean;
-  };
-  [SCREEN_CONTACT_US]: {
-    title: string;
-  };
-  [SCREEN_TICKETS_CONVERSATION]: {
-    title: string;
-    status: 'Closed' | 'Open';
-    ticketId: string;
-  };
+  // [SCREEN_FAQ]: {
+  //   title: string;
+  //   disableMessaging?: boolean;
+  // };
+  // [SCREEN_CONTACT_US]: {
+  //   title: string;
+  // };
+  // [SCREEN_TICKETS_CONVERSATION]: {
+  //   title: string;
+  //   status: 'Closed' | 'Open';
+  //   ticketId: string;
+  // };
   [SCREEN_YOUR_TICKETS]: undefined;
   [SCREEN_CURRENCY_CONVERTER]: undefined;
   [SCREEN_PHRASE_BOOK]: undefined;
@@ -341,7 +341,7 @@ export type AppNavigatorParamsType = {
     visaId: string;
   };
   [SCREEN_SUPPORT_CENTER]: undefined;
-  [SCREEN_FOREX]: undefined;
+  // [SCREEN_FOREX]: undefined;
   [SCREEN_JOURNAL_START]: {
     isEditing: boolean;
   };
@@ -567,10 +567,10 @@ const AppNavigator = () => {
         {/* <Screen name={SCREEN_ABOUT_SCREEN} component={About} /> */}
         <Screen name={SCREEN_SAVED_ITINERARIES} component={SavedItinerary} />
         <Screen name={SCREEN_TRIP_INTENSITY} component={TripIntensity} />
-        <Screen
+        {/* <Screen
           name={SCREEN_BUDGET_PREFERENCES}
           component={BudgetPreferences}
-        />
+        /> */}
         <Screen
           options={{
             headerShown: false,
@@ -585,53 +585,53 @@ const AppNavigator = () => {
           name={SCREEN_REQUEST_CALLBACK}
           component={RequestCallback}
         />
-        <Screen
+        {/* <Screen
           options={{
             headerShown: false,
           }}
           name={SCREEN_GCM}
           component={GCM}
-        />
-        <Screen
+        /> */}
+        {/* <Screen
           options={{
             headerShown: false,
           }}
           name={SCREEN_GCM_CITY_PICKER}
           component={GCMCityPicker}
-        />
-        <Screen
+        /> */}
+        {/* <Screen
           options={{
             headerShown: false,
           }}
           name={SCREEN_GCM_NATIONALITY_PICKER}
           component={GCMNationalityPicker}
-        />
-        <Screen
+        /> */}
+        {/* <Screen
           options={{
             headerShown: false,
           }}
           name={SCREEN_GCM_ROOM_CONFIG}
           component={GCMRoomConfig}
-        />
+        /> */}
         {/* <Screen name={SCREEN_BOOKED_ITINERARY} component={BookedItinerary} /> */}
-        <Screen name={SCREEN_FAQ} component={FAQ} />
-        <Screen name={SCREEN_CONTACT_US} component={ContactUs} />
+        {/* <Screen name={SCREEN_FAQ} component={FAQ} /> */}
+        {/* <Screen name={SCREEN_CONTACT_US} component={ContactUs} /> */}
         <Screen name={SCREEN_YOUR_TICKETS} component={YourTickets} />
-        <Screen
+        {/* <Screen
           name={SCREEN_TICKETS_CONVERSATION}
           component={TicketsConversation}
-        />
-        <Screen
+        /> */}
+        {/* <Screen
           name={SCREEN_CURRENCY_CONVERTER}
           component={CurrencyConverter}
-        />
+        /> */}
         <Screen name={SCREEN_PHRASE_BOOK} component={PhraseBook} />
         <Screen name={SCREEN_PACKING_CHECKLIST} component={PackingChecklist} />
         <Screen name={SCREEN_PASSPORT_DETAILS} component={PassportDetails} />
-        <Screen
+        {/* <Screen
           name={SCREEN_EMERGENCY_CONTACTS}
           component={EmergencyContacts}
-        />
+        /> */}
         <Screen name={SCREEN_WEATHER} component={Weather} />
         <Screen name={SCREEN_PLACES} component={Places} />
         <Screen name={SCREEN_NEAR_BY} component={NearBy} />
@@ -661,7 +661,7 @@ const AppNavigator = () => {
           component={VisaDocumentsActionSheet}
         />
         <Screen name={SCREEN_SUPPORT_CENTER} component={SupportCenter} />
-        <Screen name={SCREEN_FOREX} component={Forex} />
+        {/* <Screen name={SCREEN_FOREX} component={Forex} /> */}
         <Screen name={SCREEN_JOURNAL_START} component={JournalStart} />
         <Screen name={SCREEN_JOURNAL_SETUP} component={JournalSetup} />
         <Screen
@@ -695,7 +695,7 @@ const AppNavigator = () => {
           options={{headerShown: false}}
           component={PaymentScreen}
         />
-        <Screen name={SCREEN_PLATO_CHAT} component={PlatoChat} />
+        {/* <Screen name={SCREEN_PLATO_CHAT} component={PlatoChat} /> */}
         <Screen name={SCREEN_FILE_UPLOAD} component={Upload} />
       </Navigator>
     </Fragment>

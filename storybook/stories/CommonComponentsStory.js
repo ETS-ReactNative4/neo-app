@@ -17,7 +17,7 @@ import FeaturedCardTestCases from "../../CommonComponents/FeaturedCard/FeaturedC
 import ItineraryCardTestCases from "../../CommonComponents/ItineraryCard/ItineraryCardTestCases";
 import DealCardTestCases from "../../CommonComponents/DealCard/DealCardTestCases";
 import DismissKeyboardViewTestCases from "../../CommonComponents/DismissKeyboardView/DismissKeyboardViewTestCases";
-import ModalContentTestCases from "../../Screens/AppOverlays/Components/ForceUpdateModal/Components/ModalContentTestCases";
+// import ModalContentTestCases from "../../Screens/AppOverlays/Components/ForceUpdateModal/Components/ModalContentTestCases";
 import RouteListTestCases from "../../CommonComponents/RouteList/RouteListTestCases";
 import AnimatedLoopToEndTestCases from "../../CommonComponents/AnimatedLoopToEnd/AnimatedLoopToEndTestCases";
 import ParallaxScrollViewTestCases from "../../CommonComponents/ParallaxScrollView/ParallaxScrollViewTestCases";
@@ -52,7 +52,7 @@ FeaturedCardTestCases.forEach(renderTestCase);
 ItineraryCardTestCases.forEach(renderTestCase);
 DealCardTestCases.forEach(renderTestCase);
 DismissKeyboardViewTestCases.forEach(renderTestCase);
-ModalContentTestCases.forEach(renderTestCase);
+// ModalContentTestCases.forEach(renderTestCase);
 RouteListTestCases.forEach(renderTestCase);
 AnimatedLoopToEndTestCases.forEach(renderTestCase);
 ParallaxScrollViewTestCases.forEach(renderTestCase);

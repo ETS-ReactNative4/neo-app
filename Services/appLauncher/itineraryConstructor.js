@@ -16,7 +16,7 @@ const itineraryConstructor = ({ itineraryId, cities }) => {
          * They don't disturb itinerary constructor if they fail
          */
         debouncer(() => {
-          storeService.emergencyContactsStore.getEmergencyContacts(cities);
+          // storeService.emergencyContactsStore.getEmergencyContacts(cities);
           storeService.passportDetailsStore.updatePassportDetails(itineraryId);
           storeService.visaStore.getVisaHomeScreenDetails();
           storeService.supportStore.loadFaqDetails();

@@ -4,7 +4,7 @@ import constants from "../../constants/constants";
 import { inject, observer } from "mobx-react";
 import ErrorBoundary from "../../CommonComponents/ErrorBoundary/ErrorBoundary";
 import DeepLinkHandler from "../../CommonComponents/DeepLinkHandler/DeepLinkHandler";
-import HelpDeskView from "../ChatScreen/Components/HelpDeskView";
+// import HelpDeskView from "../ChatScreen/Components/HelpDeskView";
 import ContactUsTile from "./Components/ContactUsTile";
 import PrimaryHeader from "../../NavigatorsV2/Components/PrimaryHeader";
 
@@ -79,7 +79,7 @@ class SupportCenter extends Component {
 
     return (
       <View style={styles.supportCenterContainer}>
-        <HelpDeskView
+        {/* <HelpDeskView
           faqSections={faqSections}
           navigation={this.props.navigation}
           disableHeader={true}
@@ -91,7 +91,7 @@ class SupportCenter extends Component {
           isTitleBold={true}
           disableTopBar={!conversations.length}
           chatActivationMessage={""}
-        />
+        /> */}
         <ContactUsTile contactAction={this.contactSupport} />
       </View>
     );

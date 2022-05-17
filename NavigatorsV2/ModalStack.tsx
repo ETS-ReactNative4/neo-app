@@ -31,7 +31,7 @@ import ActivityVoucher from "../Screens/VoucherScreens/ActivityVoucherScreen/Act
 import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
 import TransferVoucher from "../Screens/VoucherScreens/TransferVoucherScreen/TransferVoucher";
 import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
-import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
+// import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
 
 export type ListingPageType = {
   slug?: string;
@@ -118,7 +118,7 @@ const ModalStack = () => {
       <Screen name={SCREEN_HOTEL_VOUCHER} component={HotelVoucher} />
       <Screen name={SCREEN_TRANSFER_VOUCHER} component={TransferVoucher} />
       <Screen name={SCREEN_PDF_VIEWER} component={PDFViewerAndroid} />
-      <Screen name={SCREEN_FEEDBACK_PROMPT} component={FeedbackPrompt} />
+      {/* <Screen name={SCREEN_FEEDBACK_PROMPT} component={FeedbackPrompt} /> */}
     </Navigator>
   );
 };

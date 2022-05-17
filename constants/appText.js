@@ -276,17 +276,17 @@ const appText = {
     submitSuccessful: "Thanks for your feedback!",
     submitFailed: "Unable to record feedback."
   },
-  feedbackPromptText: {
-    returnConfirmationTitle: "Thanks for your feedback!",
-    returnConfirmationPostiveInfo: "We're glad you had a good time",
-    requestFeedback: "Please add your feedback before submitting",
-    returnConfirmationNegativeInfo:
-      "We're sorry your experience wasn't up to the mark",
-    returnCta: "Okay, got it",
-    cancelReturnCta: "Continue editing",
-    defaultPositiveFeedbackDesc: "Pick your favourite moments of the day",
-    defaultNegativeFeedbackDesc: "Where did it go wrong?"
-  },
+  // feedbackPromptText: {
+  //   returnConfirmationTitle: "Thanks for your feedback!",
+  //   returnConfirmationPostiveInfo: "We're glad you had a good time",
+  //   requestFeedback: "Please add your feedback before submitting",
+  //   returnConfirmationNegativeInfo:
+  //     "We're sorry your experience wasn't up to the mark",
+  //   returnCta: "Okay, got it",
+  //   cancelReturnCta: "Continue editing",
+  //   defaultPositiveFeedbackDesc: "Pick your favourite moments of the day",
+  //   defaultNegativeFeedbackDesc: "Where did it go wrong?"
+  // },
   permissionsInfoText: {
     readFile:
       "This permission is needed to add images from your device to the journal",
@@ -306,18 +306,18 @@ export const CONSTANT_aboutUsText = {
     "All material herein is the copyright of Travel Troops Global Pvt ltd. All Rights Reserved.",
   versionText: "App version v."
 };
-export const CONSTANT_currencyConverterText = {
-  conversionRateError: {
-    title: "Oh no!",
-    message: "Unable to fetch the latest conversion rates...",
-    actionText: "Go Back"
-  },
-  currencyDetailsError: {
-    title: "Oops!",
-    message: "We are currently unable to fetch the currency details...",
-    actionText: "Go Back"
-  }
-};
+// export const CONSTANT_currencyConverterText = {
+//   conversionRateError: {
+//     title: "Oh no!",
+//     message: "Unable to fetch the latest conversion rates...",
+//     actionText: "Go Back"
+//   },
+//   currencyDetailsError: {
+//     title: "Oops!",
+//     message: "We are currently unable to fetch the currency details...",
+//     actionText: "Go Back"
+//   }
+// };
 export const CONSTANT_voucherText = {
   freeTransferInfo:
     "This is a self exploration activity. You will need to manage your transport to and from this location. Reach the meeting point 30 minutes prior to avoid last minute hassle.",
@@ -562,17 +562,17 @@ export const CONSTANT_feedbackFooterText = {
   submitSuccessful: "Thanks for your feedback!",
   submitFailed: "Unable to record feedback."
 };
-export const CONSTANT_feedbackPromptText = {
-  returnConfirmationTitle: "Thanks for your feedback!",
-  returnConfirmationPostiveInfo: "We're glad you had a good time",
-  requestFeedback: "Please add your feedback before submitting",
-  returnConfirmationNegativeInfo:
-    "We're sorry your experience wasn't up to the mark",
-  returnCta: "Okay, got it",
-  cancelReturnCta: "Continue editing",
-  defaultPositiveFeedbackDesc: "Pick your favourite moments of the day",
-  defaultNegativeFeedbackDesc: "Where did it go wrong?"
-};
+// export const CONSTANT_feedbackPromptText = {
+//   returnConfirmationTitle: "Thanks for your feedback!",
+//   returnConfirmationPostiveInfo: "We're glad you had a good time",
+//   requestFeedback: "Please add your feedback before submitting",
+//   returnConfirmationNegativeInfo:
+//     "We're sorry your experience wasn't up to the mark",
+//   returnCta: "Okay, got it",
+//   cancelReturnCta: "Continue editing",
+//   defaultPositiveFeedbackDesc: "Pick your favourite moments of the day",
+//   defaultNegativeFeedbackDesc: "Where did it go wrong?"
+// };
 export const CONSTANT_permissionsInfoText = {
   readFile:
     "This permission is needed to add images from your device to the journal",

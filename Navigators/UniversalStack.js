@@ -3,13 +3,13 @@ import TransferVoucher from "../Screens/VoucherScreens/TransferVoucherScreen/Tra
 import ActivityVoucher from "../Screens/VoucherScreens/ActivityVoucherScreen/ActivityVoucher";
 import FlightVoucher from "../Screens/VoucherScreens/FlightVoucherScreen/FlightVoucher";
 import PassVoucher from "../Screens/VoucherScreens/PassVoucherScreen/PassVoucher";
-import FlightStatus from "../Screens/FlightStatusScreen/FlightStatus";
+// import FlightStatus from "../Screens/FlightStatusScreen/FlightStatus";
 import LeisureScreen from "../Screens/VoucherScreens/LeisureScreen/LeisureScreen";
 import YourBookings from "../Screens/YourBookingsScreen/YourBookings";
 import MainStack from "./MainStack";
 import RentalCarVoucher from "../Screens/VoucherScreens/RentalCarVoucherScreen/RentalCarVoucher";
 import PDFViewerAndroid from "../Screens/PDFViewerScreen/PDFViewerAndroid";
-import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
+// import FeedbackPrompt from "../Screens/FeedbackPromptScreen/FeedbackPrompt";
 import ActionSheet from "../Screens/ActionSheetScreen/ActionSheet";
 import VisaDocumentsActionSheet from "../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet";
 import HotelVoucher from "../Screens/VoucherScreens/HotelVoucherScreen/HotelVoucher";
@@ -36,9 +36,9 @@ const UniversalStack = createStackNavigator(
     CustomBlockCardVoucher: {
       screen: CustomBlockCardVoucher
     },
-    FlightStatus: {
-      screen: FlightStatus
-    },
+    // FlightStatus: {
+    //   screen: FlightStatus
+    // },
     RentalCarVoucher: {
       screen: RentalCarVoucher
     },
@@ -51,9 +51,9 @@ const UniversalStack = createStackNavigator(
     PDFViewerScreen: {
       screen: PDFViewerAndroid
     },
-    FeedbackPrompt: {
-      screen: FeedbackPrompt
-    },
+    // FeedbackPrompt: {
+    //   screen: FeedbackPrompt
+    // },
     VisaDocumentActionSheet: {
       screen: VisaDocumentsActionSheet
     },

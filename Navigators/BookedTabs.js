@@ -1,13 +1,13 @@
 import { Platform } from "react-native";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
-import ChatScreen from "../Screens/ChatScreen/ChatScreen";
+// import ChatScreen from "../Screens/ChatScreen/ChatScreen";
 import constants from "../constants/constants";
 import TabBarIcon from "../CommonComponents/TabBarIcon/TabBarIcon";
 import React from "react";
 import TripFeed from "../Screens/TripFeedScreen/TripFeed";
 import Tools from "../Screens/ToolsScreen/Tools";
-import BookingsHome from "../Screens/BookingsHomeScreen/BookingsHome";
+// import BookingsHome from "../Screens/BookingsHomeScreen/BookingsHome";
 import KeyboardFriendlyBottomTabBar from "../CommonComponents/KeyboardFriendlyBottomTabBar/KeyboardFriendlyBottomTabBar";
 import JournalStack from "./JournalStack";
 import CustomBottomTabBar from "../CommonComponents/CustomBottomTabBar/CustomBottomTabBar";
@@ -34,9 +34,9 @@ const BookedTabs = createBottomTabNavigator(
     Bookings: {
       screen: BookingsHome
     },
-    Support: {
-      screen: ChatScreen
-    },
+    // Support: {
+    //   screen: ChatScreen
+    // },
     Tools: {
       screen: Tools
     },
