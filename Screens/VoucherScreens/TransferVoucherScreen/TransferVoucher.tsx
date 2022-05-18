@@ -33,7 +33,7 @@ import LightBoxButton from '../../../CommonComponents/LightBoxButton/LightBoxBut
 // import PhotoView from "react-native-photo-view-ex";
 import ImageView from 'react-native-image-view';
 import {ITransferCosting} from '../../../TypeInterfaces/IItinerary';
-import PassportDetails from '../../../mobx/PassportDetails';
+// import PassportDetails from '../../../mobx/PassportDetails';
 import {IVoucherSplitSectionData} from '../types/voucherScreenTypes';
 
 const xHeight = isIphoneX()
@@ -42,15 +42,15 @@ const xHeight = isIphoneX()
   ? 20
   : 0;
 
-export interface TransferVoucherProps {
-  navigation: any;
-  route: {
-    params: {
-      transfer: ITransferCosting | {};
-    };
-  };
-  passportDetailsStore: PassportDetails;
-}
+// export interface TransferVoucherProps {
+//   navigation: any;
+//   route: {
+//     params: {
+//       transfer: ITransferCosting | {};
+//     };
+//   };
+//   passportDetailsStore: PassportDetails;
+// }
 
 export interface TransferVoucherState {
   isCloseVisible: boolean;

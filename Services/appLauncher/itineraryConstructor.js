@@ -17,7 +17,7 @@ const itineraryConstructor = ({ itineraryId, cities }) => {
          */
         debouncer(() => {
           // storeService.emergencyContactsStore.getEmergencyContacts(cities);
-          storeService.passportDetailsStore.updatePassportDetails(itineraryId);
+          // storeService.passportDetailsStore.updatePassportDetails(itineraryId);
           storeService.visaStore.getVisaHomeScreenDetails();
           storeService.supportStore.loadFaqDetails();
           storeService.tripFeedStore.generateTripFeed();

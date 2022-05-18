@@ -3,7 +3,7 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { Platform } from "react-native";
 import HomeSwitch from "./HomeSwitch";
-import Notifications from "../Screens/NotificationsScreen/Notifications";
+// import Notifications from "../Screens/NotificationsScreen/Notifications";
 import Home from "../Screens/HomeScreen/Home";
 import Drawer from "../Screens/Drawer/Drawer";
 import PaymentStack from "./PaymentStack";

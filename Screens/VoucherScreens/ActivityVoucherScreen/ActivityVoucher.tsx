@@ -29,7 +29,7 @@ import containsHtml from '../../../Services/containsHtml/containsHtml';
 import CustomHtmlView from '../../../CommonComponents/CustomHtmlView/CustomHtmlView';
 import VoucherAlertBox from '../Components/VoucherAlertBox/VoucherAlertBox';
 import {IActivityCombinedInfo} from '../../../mobx/Itineraries';
-import PassportDetails from '../../../mobx/PassportDetails';
+// import PassportDetails from '../../../mobx/PassportDetails';
 import {IVoucherSplitSectionData} from '../types/voucherScreenTypes';
 
 const xHeight = isIphoneX()
@@ -45,7 +45,7 @@ export interface ActivityVoucherProps {
       activity: IActivityCombinedInfo | {};
     };
   };
-  passportDetailsStore: PassportDetails;
+  // passportDetailsStore: PassportDetails;
 }
 
 export interface ActivityVoucherState {
@@ -137,7 +137,7 @@ class ActivityVoucher extends Component<
 
     const {latitude, longitude} = location;
 
-    const {leadPassengerName, passengerCount} = this.props.passportDetailsStore;
+    // const {leadPassengerName, passengerCount} = this.props.passportDetailsStore;
 
     let passengerDetails: IVoucherSplitSectionData[] = [];
     let transferDetails: IVoucherSplitSectionData[] = [];

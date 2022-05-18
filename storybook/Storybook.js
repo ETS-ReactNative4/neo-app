@@ -27,7 +27,7 @@ configure(() => {
   require('./stories/AppLoginScreenStory');
   // require('./stories/ListingPageScreenStory');
   require('./stories/PromoLandingScreenStory');
-  require('./stories/NotificationsScreenStory');
+  // require('./stories/NotificationsScreenStory');
   require('./stories/SavedItineraryScreenStory');
   require('./stories/UltimateMenuScreenStory');
   require('./stories/TravellerProfileDetailsScreenStory');

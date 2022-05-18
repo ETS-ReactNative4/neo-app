@@ -181,16 +181,16 @@ class Tools extends Component {
       //   },
       //   icon: constants.forexIcon
       // },
-      {
-        icon: constants.passportDetailsIcon,
-        text: `Passport Details`,
-        action: () => {
-          recordEvent(constants.Tools.event, {
-            click: constants.Tools.click.passport,
-          });
-          navigation.navigate(SCREEN_PASSPORT_DETAILS);
-        },
-      },
+      // {
+      //   icon: constants.passportDetailsIcon,
+      //   text: `Passport Details`,
+      //   action: () => {
+      //     recordEvent(constants.Tools.event, {
+      //       click: constants.Tools.click.passport,
+      //     });
+      //     navigation.navigate(SCREEN_PASSPORT_DETAILS);
+      //   },
+      // },
       {
         icon: constants.documentVisaIcon,
         text: `Documents & Visa`,

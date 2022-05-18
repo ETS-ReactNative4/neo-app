@@ -6,13 +6,13 @@ import YourBookings from './YourBookings';
 import AppState from './AppState';
 import Itineraries from './Itineraries';
 import Weather from './Weather';
-import PackingChecklist from './PackingChecklist';
+// import PackingChecklist from './PackingChecklist';
 import Voucher from './Voucher';
 import {logError} from '../Services/errorLogger/errorLogger';
 import Phrases from './Phrases';
 import Info from './Info';
 // import EmergencyContacts from './EmergencyContacts';
-import PassportDetails from './PassportDetails';
+// import PassportDetails from './PassportDetails';
 import Visa from './Visa';
 import Places from './Places';
 import SupportStore from './SupportStore';
@@ -45,12 +45,12 @@ const createStore = () => {
     appState: new AppState(),
     itineraries: new Itineraries(),
     weatherStore: new Weather(),
-    packingChecklistStore: new PackingChecklist(),
+    // packingChecklistStore: new PackingChecklist(),
     voucherStore: new Voucher(),
     phrasesStore: new Phrases(),
     infoStore: new Info(),
     // emergencyContactsStore: new EmergencyContacts(),
-    passportDetailsStore: new PassportDetails(),
+    // passportDetailsStore: new PassportDetails(),
     visaStore: new Visa(),
     placesStore: new Places(),
     supportStore: new SupportStore(),
@@ -95,11 +95,11 @@ const createStore = () => {
     .catch(err => {
       logError(err);
     });
-  hydrate('_allPackingChecklists', appStore.packingChecklistStore)
-    .then(() => {})
-    .catch(err => {
-      logError(err);
-    });
+  // hydrate('_allPackingChecklists', appStore.packingChecklistStore)
+  //   .then(() => {})
+  //   .catch(err => {
+  //     logError(err);
+  //   });
   hydrate('_user', appStore.userStore)
     .then(() => {})
     .catch(err => {

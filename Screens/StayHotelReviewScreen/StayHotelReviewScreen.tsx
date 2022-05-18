@@ -12,7 +12,7 @@ import {SCREEN_STAY_HOTEL_REVIEW} from '../../NavigatorsV2/ScreenNames';
 import useSavePassengersApi from './hook/useSavePassengersApi';
 import apiCall from '../../Services/networkRequests/apiCall';
 import constants from '../../constants/constants';
-import paymentScript from '../PaymentSummaryScreen/Components/paymentScript';
+// import paymentScript from '../PaymentSummaryScreen/Components/paymentScript';
 import StaySection from '../StayHotelListScreen/Components/StaySection';
 import {Passengers} from './Components/Passengers';
 
@@ -198,24 +198,24 @@ const StayHotelReviewScreen = inject('deviceLocaleStore')(
                 user_device: 'MOBILE_APP',
               },
             )
-              .then(response => {
-                if (response.status === constants.responseSuccessStatus) {
-                  const transactionId = response.data.transactionId;
-                  const paymentScriptJs = paymentScript(response.data);
-                  setLoading(false);
-                  navigation.navigate('PaymentScreen', {
-                    paymentScript: paymentScriptJs,
-                    transactionId,
-                    backAction: () => {
-                      otaHotelStore.reset();
-                      navigation.dispatch(launchItinerarySelector());
-                    },
-                  });
-                } else {
-                  setLoading(false);
-                  console.log('failed payment');
-                }
-              })
+              // .then(response => {
+              //   if (response.status === constants.responseSuccessStatus) {
+              //     const transactionId = response.data.transactionId;
+              //     const paymentScriptJs = paymentScript(response.data);
+              //     setLoading(false);
+              //     navigation.navigate('PaymentScreen', {
+              //       paymentScript: paymentScriptJs,
+              //       transactionId,
+              //       backAction: () => {
+              //         otaHotelStore.reset();
+              //         navigation.dispatch(launchItinerarySelector());
+              //       },
+              //     });
+              //   } else {
+              //     setLoading(false);
+              //     console.log('failed payment');
+              //   }
+              // })
               .catch(() => {
                 setLoading(false);
                 console.log('payment failed');

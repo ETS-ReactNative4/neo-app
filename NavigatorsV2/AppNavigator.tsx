@@ -93,11 +93,11 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import ModalStack, {ModalNavigatorParamsType} from './ModalStack';
 import {CONSTANT_white} from '../constants/colorPallete';
 import {RouteProp} from '@react-navigation/native';
-import Notifications, {
-  IItineraryNotification,
-} from '../Screens/NotificationsScreen/Notifications';
-import NotificationDetails from '../Screens/NotificationDetailsScreen/NotificationDetails';
-import NotificationsFaq from '../Screens/NotificationsFaqScreen/NotificationsFaq';
+// import Notifications, {
+//   IItineraryNotification,
+// } from '../Screens/NotificationsScreen/Notifications';
+// import NotificationDetails from '../Screens/NotificationDetailsScreen/NotificationDetails';
+// import NotificationsFaq from '../Screens/NotificationsFaqScreen/NotificationsFaq';
 import PostBookingHomeTabs, {
   PostBookingHomeTabsType,
 } from './PostBookingHomeTabs';
@@ -132,8 +132,8 @@ import TicketsConversation from '../Screens/TicketsConversationScreen/TicketsCon
 import YourTickets from '../Screens/YourTicketsScreen/YourTickets';
 // import CurrencyConverter from '../Screens/CurrencyConverterScreen/CurrencyConverter';
 import PhraseBook from '../Screens/PhraseBookScreen/PhraseBook';
-import PackingChecklist from '../Screens/PackingChecklistScreen/PackingChecklist';
-import PassportDetails from '../Screens/PassportDetailsScreen/PassportDetails';
+// import PackingChecklist from '../Screens/PackingChecklistScreen/PackingChecklist';
+// import PassportDetails from '../Screens/PassportDetailsScreen/PassportDetails';
 // import EmergencyContacts from '../Screens/EmergencyContactsScreen/EmergencyContacts';
 import Weather from '../Screens/WeatherScreen/Weather';
 import Places from '../Screens/PlacesScreen/Places';
@@ -153,15 +153,15 @@ import SupportCenter from '../Screens/SupportCenterScreen/SupportCenter';
 // import JournalTextEditor from '../Screens/JournalTextEditorScreen/JournalTextEditor';
 // import JournalPublish from '../Screens/JournalPublishScreen/JournalPublish';
 // import JournalShare from '../Screens/JournalShareScreen/JournalShare';
-import PaymentHome from '../Screens/PaymentHomeScreen/PaymentHome';
-import PaymentSummary from '../Screens/PaymentSummaryScreen/PaymentSummary';
-import PaymentSuccess from '../Screens/PaymentScreens/PaymentSuccess';
-import PaymentFailure from '../Screens/PaymentScreens/PaymentFailure';
-import PaymentScreen from '../Screens/PaymentScreens/PaymentScreen';
+// import PaymentHome from '../Screens/PaymentHomeScreen/PaymentHome';
+// import PaymentSummary from '../Screens/PaymentSummaryScreen/PaymentSummary';
+// import PaymentSuccess from '../Screens/PaymentScreens/PaymentSuccess';
+// import PaymentFailure from '../Screens/PaymentScreens/PaymentFailure';
+// import PaymentScreen from '../Screens/PaymentScreens/PaymentScreen';
 // import BudgetPreferences from '../Screens/BudgetPreferencesScreen/BudgetPreferences';
 import VisaDocumentsActionSheet from '../Screens/VisaDocumentsActionSheet/VisaDocumentsActionSheet';
 import {leadSourceProdType} from '../Screens/RequestCallback/hooks/useRequestCallbackApi';
-import NotificationsAnswer from '../Screens/NotificationsAnswerScreen/NotificationsAnswer';
+// import NotificationsAnswer from '../Screens/NotificationsAnswerScreen/NotificationsAnswer';
 // import GCMNationalityPicker, {
 //   INationalityOption,
 // } from '../Screens/GCMNationalityPicker/GCMNationalityPicker';
@@ -463,11 +463,11 @@ const AppNavigator = () => {
           options={{headerShown: false}}
           component={StayHotelReviewScreen}
         />
-        <Screen
+        {/* <Screen
           name={SCREEN_NOTIFICATION_TAB}
           options={{headerShown: false}}
           component={Notifications}
-        />
+        /> */}
         <Screen
           name={SCREEN_POST_BOOKING_HOME}
           options={{headerShown: false}}
@@ -502,18 +502,18 @@ const AppNavigator = () => {
           }}
           component={ModalStack}
         />
-        <Screen
+        {/* <Screen
           name={SCREEN_NOTIFICATION_DETAILS}
           options={{
             headerShown: false,
           }}
           component={NotificationDetails}
-        />
-        <Screen name={SCREEN_NOTIFICATION_FAQ} component={NotificationsFaq} />
-        <Screen
+        /> */}
+        {/* <Screen name={SCREEN_NOTIFICATION_FAQ} component={NotificationsFaq} /> */}
+        {/* <Screen
           name={SCREEN_NOTIFICATION_ANSWER}
           component={NotificationsAnswer}
-        />
+        /> */}
         <Screen
           options={{
             headerShown: false,
@@ -626,8 +626,8 @@ const AppNavigator = () => {
           component={CurrencyConverter}
         /> */}
         <Screen name={SCREEN_PHRASE_BOOK} component={PhraseBook} />
-        <Screen name={SCREEN_PACKING_CHECKLIST} component={PackingChecklist} />
-        <Screen name={SCREEN_PASSPORT_DETAILS} component={PassportDetails} />
+        {/* <Screen name={SCREEN_PACKING_CHECKLIST} component={PackingChecklist} /> */}
+        {/* <Screen name={SCREEN_PASSPORT_DETAILS} component={PassportDetails} /> */}
         {/* <Screen
           name={SCREEN_EMERGENCY_CONTACTS}
           component={EmergencyContacts}
@@ -682,7 +682,7 @@ const AppNavigator = () => {
           component={JournalPublish}
         /> */}
         {/* <Screen name={SCREEN_JOURNAL_SHARE} component={JournalShare} /> */}
-        <Screen name={SCREEN_PAYMENT_HOME} component={PaymentHome} />
+        {/* <Screen name={SCREEN_PAYMENT_HOME} component={PaymentHome} />
         <Screen name={SCREEN_PAYMENT_SUMMARY} component={PaymentSummary} />
         <Screen
           name={SCREEN_PAYMENT_SUCCESS}
@@ -694,7 +694,7 @@ const AppNavigator = () => {
           name={SCREEN_PAYMENT_SCREEN}
           options={{headerShown: false}}
           component={PaymentScreen}
-        />
+        /> */}
         {/* <Screen name={SCREEN_PLATO_CHAT} component={PlatoChat} /> */}
         <Screen name={SCREEN_FILE_UPLOAD} component={Upload} />
       </Navigator>

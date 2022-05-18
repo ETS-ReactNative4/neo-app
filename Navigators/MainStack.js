@@ -8,8 +8,8 @@ import NearBy from "../Screens/NearByScreen/NearBy";
 import Visa from "../Screens/VisaScreen/Visa";
 // import CurrencyConverter from "../Screens/CurrencyConverterScreen/CurrencyConverter";
 import PhraseBook from "../Screens/PhraseBookScreen/PhraseBook";
-import PackingChecklist from "../Screens/PackingChecklistScreen/PackingChecklist";
-import PassportDetails from "../Screens/PassportDetailsScreen/PassportDetails";
+// import PackingChecklist from "../Screens/PackingChecklistScreen/PackingChecklist";
+// import PassportDetails from "../Screens/PassportDetailsScreen/PassportDetails";
 // import EmergencyContacts from "../Screens/EmergencyContactsScreen/EmergencyContacts";
 import Weather from "../Screens/WeatherScreen/Weather";
 import VisaChecklist from "../Screens/VisaChecklistScreen/VisaChecklist";
@@ -57,12 +57,12 @@ const MainStack = createStackNavigator(
     PhraseBook: {
       screen: PhraseBook
     },
-    PackingChecklist: {
-      screen: PackingChecklist
-    },
-    PassportDetails: {
-      screen: PassportDetails
-    },
+    // PackingChecklist: {
+    //   screen: PackingChecklist
+    // },
+    // PassportDetails: {
+    //   screen: PassportDetails
+    // },
     // EmergencyContacts: {
     //   screen: EmergencyContacts
     // },
